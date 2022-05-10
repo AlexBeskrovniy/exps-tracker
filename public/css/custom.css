@@ -12,14 +12,20 @@ h1, h2, h3, h4, h5, h6,
 	font-weight: 600;
 }
 
-.page-title {
+.nav-link:hover,
+.nav-link:focus {
+	color: #FFC107 !important;
+	text-decoration: underline;
+}
+
+.page-title,
+.spent {
 	color: #FFC107
 }
 
-.nav-link:hover,
-.nav-link:focus{
-	color: #FFC107 !important;
-	text-decoration: underline;
+.main {
+	min-height: 100%;
+	padding-bottom: 100px;
 }
 
 .form-card {
@@ -28,4 +34,8 @@ h1, h2, h3, h4, h5, h6,
 
 .modal-content {
 	width: 600px;
+}
+
+.record-card {
+	width: 19rem;
 }

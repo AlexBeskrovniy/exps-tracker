@@ -29,6 +29,11 @@ app.get('/guideline', (req, res) => {
 	res.render('guideline.ejs');
 });
 
+//all-records page route
+app.get('/all-records', (req, res) => {
+	res.render('all-records.ejs');
+});
+
 
 
 app.listen(PORT);

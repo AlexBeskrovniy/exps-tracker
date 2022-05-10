@@ -1,25 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<%- include('partials/head') %>
+		<%- include('partials/head'); -%>
     </head>
 	<body>
 		<!-- HEADER -->
-		<%- include('partials/header')%>
+		<%- include('partials/header'); -%>
 		<!--/HEADER -->
 
-		<main>
-			<div class="container d-flex justify-content-center">
-				
+		<!-- MAIN -->
+		<main class="main">
+			<div class ="container">
+				<div class="d-flex flex-wrap align-items-center justify-content-between py-5">
+					<h2 class="page-title ms-2 mb-0">List of the Categories</h2>
+					<a href="#" class="btn btn-outline-warning btn-lg me-2" data-bs-toggle="modal" data-bs-target="#modalFormNewCategory">Create Category</a>
+				</div>
+
+				<div class="d-flex justify-content-center">
+					<div class="card bg-dark col-10 mb-3">
+						<div class="card-header text-white">
+							Category name
+						</div>
+					<div class="card-body">
+						<h5 class="card-title text-white">Description</h5>
+						<p class="card-text text-white">
+							Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+							Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+						</p>
+					</div>
+						<div class="card-footer text-end">
+							<a href="#" class="btn btn-outline-warning me-2">Edit</a>
+    						<a href="#" class="btn btn-outline-warning me-2">Delete</a>
+  						</div>
+					</div>
+				</div>
+				<div class="d-flex justify-content-center">
+					<div class="card bg-dark col-10 mb-3">
+						<div class="card-header text-white">
+							Category name
+						</div>
+					<div class="card-body">
+						<h5 class="card-title text-white">Description</h5>
+						<p class="card-text text-white">
+							Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+							Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+						</p>
+					</div>
+						<div class="card-footer text-end">
+							<a href="#" class="btn btn-outline-warning me-2">Edit</a>
+    						<a href="#" class="btn btn-outline-warning me-2">Delete</a>
+  						</div>
+					</div>
+				</div>
+				<div class="d-flex justify-content-center">
+					<div class="card bg-dark col-10 mb-3">
+						<div class="card-header text-white">
+							Category name
+						</div>
+					<div class="card-body">
+						<h5 class="card-title text-white">Description</h5>
+						<p class="card-text text-white">
+							Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+							Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+						</p>
+					</div>
+						<div class="card-footer text-end">
+							<a href="#" class="btn btn-outline-warning me-2">Edit</a>
+    						<a href="#" class="btn btn-outline-warning me-2">Delete</a>
+  						</div>
+					</div>
+				</div>
 			</div>	
 		</main>
+		<!--/MAIN -->
 
-		<!--Modal Window Form Create Record-->
-		<%- include('partials/modal-form-new-record') %>
-		<!--/Modal Window Form Create Record--->
+		<!--Modal Window Form Create Category-->
+		<%- include('partials/modal-form-new-category'); -%>
+		<!--/Modal Window Form Create Category-->
 
 		<!-- FOOTER -->
-		<%- include('partials/footer') %>
+		<%- include('partials/footer'); -%>
 		<!--/FOOTER -->
 		
 	</body>

@@ -1,21 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<%- include('partials/head') %>
+		<%- include('partials/head'); -%>
     </head>
 	<body>
 		<!-- HEADER -->
-		<%- include('partials/header')%>
+		<%- include('partials/header'); -%>
 		<!--/HEADER -->
 
-		<main>
-			<div class="container d-flex justify-content-center">
-				
+		<!-- MAIN -->
+		<main class="main">
+			<div class ="container">
+				<div class="d-flex flex-wrap align-items-center justify-content-between py-5">
+					<h2 class="page-title ms-2 mb-0">App Guideline</h2>
+					<a href="#" class="btn btn-outline-warning btn-lg me-2" data-bs-toggle="modal" data-bs-target="#modalFormNewCategory">Something Useful</a>
+				</div>
+
+				<div class="d-flex justify-content-center">
+					<div class="card bg-dark col-10 mb-3">
+						<div class="card-header text-white">
+							Some Quotation
+						</div>
+						<div class="card-body">
+							<h5 class="card-title text-white">Description</h5>
+							<p class="card-text text-white">
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in purus eu nibh pretium condimentum. Etiam viverra lectus diam. Donec auctor vestibulum arcu, non scelerisque libero vehicula in. Proin sed nulla eu velit ornare consectetur a sed nulla. Vestibulum arcu enim, finibus nec eleifend suscipit, viverra sed sem. Duis feugiat eu est eu molestie. Donec volutpat gravida tellus, sit amet tincidunt enim ultrices a. Maecenas vulputate ornare est, vel sodales leo mattis et. Etiam egestas quam sit amet sapien mattis, in fermentum velit congue. Integer vitae feugiat odio. Integer at pharetra lectus. Aenean bibendum est felis. Proin non rhoncus massa.
+
+								Nullam condimentum lorem quis dolor iaculis, nec rutrum lacus placerat. In sapien leo, dapibus egestas justo id, volutpat interdum dolor. Etiam malesuada augue elit. Maecenas sapien odio, efficitur at gravida sed, luctus et orci. Donec aliquet vestibulum quam eget lacinia. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Fusce tincidunt purus quis justo vehicula, quis ornare ipsum bibendum. Vivamus sollicitudin eros sit amet vehicula dapibus. Aliquam erat volutpat. Proin dignissim quam ligula, sit amet mattis nunc lobortis et.
+
+								Duis a placerat erat, eget rutrum diam. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis sollicitudin venenatis commodo. In in semper sapien. Praesent ornare ligula at tortor tempus, semper dapibus mi faucibus. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vivamus at nibh gravida, egestas odio vitae, vestibulum diam. Nulla lobortis augue eu nulla molestie, in aliquet neque porttitor. Proin lorem dolor, gravida quis tortor in, congue consequat massa. Aenean dictum molestie orci, ut bibendum dui imperdiet ac. Proin et nunc nec orci accumsan semper. Pellentesque tristique nisl eu mi porttitor, vitae molestie turpis iaculis. Aliquam sodales ante eros, malesuada pretium metus commodo non.
+
+								Donec rhoncus, lectus a volutpat volutpat, diam sapien scelerisque purus, vel gravida eros dui sed elit. Nunc sit amet molestie nulla. Nam non ante mauris. Nulla nec malesuada mi, sit amet scelerisque purus. Phasellus erat dolor, tempor ut semper eu, rutrum at elit. Vestibulum ullamcorper porta nisi, ac sodales dui vestibulum quis. Fusce feugiat sit amet nisi vitae sagittis. Donec vitae elit ac ex ullamcorper faucibus quis nec mauris. Sed tempus felis at purus vehicula, pulvinar molestie mauris semper. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nam quam neque, sodales luctus consequat sit amet, laoreet sed augue. Donec nec sapien mattis, feugiat tortor a, finibus metus. Maecenas nisl lectus, auctor eu tempor nec, auctor at nisl. Praesent sed velit nulla.
+
+								Quisque sagittis facilisis eros at eleifend. Sed ac feugiat felis. Nulla scelerisque dui sit amet condimentum condimentum. Sed vestibulum, mauris vel ornare posuere, velit sem porttitor augue, vel dictum tellus mi sed risus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam iaculis sed turpis vitae malesuada. Morbi viverra, risus eu ultrices accumsan, urna nisi tincidunt ipsum, eget accumsan elit ante porta nunc. Nunc nec mattis erat.
+							</p>
+						</div>
+					</div>
+				</div>
+
 			</div>	
 		</main>
+		<!--/MAIN -->
 
 		<!-- FOOTER -->
-		<%- include('partials/footer') %>
+		<%- include('partials/footer'); -%>
 		<!--/FOOTER -->
 		
 	</body>
