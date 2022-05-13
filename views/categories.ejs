@@ -3,7 +3,7 @@
 	<head>
 		<%- include('partials/head'); -%>
     </head>
-	<body>
+	<body onload="showRecords();">
 		<!-- HEADER -->
 		<%- include('partials/header'); -%>
 		<!--/HEADER -->
@@ -19,26 +19,7 @@
 				<div id="output">
 					<!-- Empty div for Categories Cards -->
 				</div>
-				<!-- Category card example -->
-				<div class="d-flex justify-content-center">
-					<div class="card bg-dark col-10 mb-3">
-						<div class="card-header text-white">
-							Category name
-						</div>
-						<div class="card-body">
-							<h5 class="card-title text-white">Description</h5>
-							<p class="card-text text-white">
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-							</p>
-						</div>
-						<div class="card-footer text-end">
-							<a href="#" class="btn btn-outline-warning me-2">Edit</a>
-							<a href="#" class="btn btn-outline-warning me-2">Delete</a>
-  						</div>
-					</div>
-				</div>
-				<!--/Category card example -->
+
 			</div>	
 		</main>
 		<!--/MAIN -->
@@ -52,57 +33,6 @@
 		<!--/FOOTER -->
 
 		<!-- Local Storage Script -->
-		<script type="text/javascript">
-			const form = document.getElementById('new-category');
-			//Save form data.
-			form.addEventListener('submit', function() {
-				const category = {
-					name: document.getElementById('floatingInput').value,
-					description: document.getElementById('floatingTextarea').value
-				}
-
-				localStorage[Math.floor(Math.random() * 50)] = JSON.stringify(category);
-			});
-
-			//Read all Records from the Storage by the keys.
-			function allStorage() {
-			    let values = [];
-			    let keys = Object.keys(localStorage);
-			    let i = keys.length;
-
-			    while ( i-- ) {
-			        values.push(JSON.parse(localStorage[keys[i]]) );
-			    }
-
-			    return values;
-			}
-
-			let categories = allStorage();
-
-			let card = document.getElementById('output');
-
-			//Insert cards with Categories into template.
-			categories.forEach(function(category) {
-				card.insertAdjacentHTML('afterbegin', `<div class="d-flex justify-content-center">
-															<div class="card bg-dark col-10 mb-3">
-																<div class="card-header text-white">
-																	<h5  class="card-title text-white">
-																		${category.name}
-																	</h5>
-																</div>
-																<div class="card-body">
-																	<h5 class="card-title text-white">Description</h5>
-																	<p class="card-text text-white">
-																		${category.description}
-																	</p>
-																</div>
-																<div class="card-footer text-end">
-																	<a href="#" class="btn btn-outline-warning me-2">Edit</a>
-										    						<a href="#" class="btn btn-outline-warning me-2">Delete</a>
-										  						</div>
-															</div>
-														</div>`);
-			});
-		</script>
+		<script src="js/local-storage-controller.js"></script>
 	</body>
 </html>
