@@ -68,7 +68,7 @@ h1, h2, h3, h4, h5, h6,
 	}
 }
 
-@media only screen and (min-width: 576px) {
+/* @media only screen and (min-width: 576px) {
 	.canvas-card {
 		width: 600px !important;
 	}
@@ -110,4 +110,4 @@ h1, h2, h3, h4, h5, h6,
 		width: 600px;
 		height: 400px;
 	}
-}
+} */

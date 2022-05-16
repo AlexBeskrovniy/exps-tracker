@@ -3,7 +3,7 @@
 	<head>
 		<%- include('partials/head'); -%>
     </head>
-	<body>
+	<body onload="showTotalSpent();">
 		<!-- HEADER -->
 		<%- include('partials/header'); -%>
 		<!--/HEADER -->
@@ -21,9 +21,8 @@
 		</main>
 		<!--/MAIN -->
 		<!--Modal Window Form Create Record-->
-			<%- include('partials/modal-form-new-record'); -%>
+		<%- include('partials/modal-form-new-record'); -%>
 		<!--/Modal Window Form Create Record--->
-
 		<!-- FOOTER -->
 		<%- include('partials/footer'); -%>
 		<!--/FOOTER -->

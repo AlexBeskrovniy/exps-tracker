@@ -3,7 +3,7 @@
 	<head>
 		<%- include('partials/head'); -%>
     </head>
-	<body>
+	<body onload="showTotalSpent(); showAllRecords();">
 		<!-- HEADER -->
 		<%- include('partials/header'); -%>
 		<!--/HEADER -->
@@ -13,268 +13,89 @@
 			<div class ="container">
 				<div class="d-flex flex-wrap align-items-center justify-content-between py-5">
 					<h2 class="page-title ms-2 mb-0">All Records</h2>
-					<!-- Sorting -->
-					<div class="dropdown">
-						<a href="#" class="btn btn-outline-warning btn-lg me-2 dropdown-toggle" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-							Sort by
-						</a>
-						<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuLink">
-							<li><a class="dropdown-item" href="#">Date</a></li>
-							<li><hr class="dropdown-divider"></li>
-							<li><a class="dropdown-item" href="#">Category</a></li>
-							<li><hr class="dropdown-divider"></li>
-							<li><a class="dropdown-item" href="#">Spent</a></li>
-						</ul>
-					</div>
-					<!--/Sorting -->
 				</div>
 
-				<div class="d-flex row justify-content-center justify-content-md-between">
+				<div id="record-wrap" class="d-flex row justify-content-center justify-content-md-between">
 					<!-- Record cards example -->
-					<div class="record-card card bg-dark col-sm-6 col-md-3 my-3 mx-2">
-						<div class="card-body">
-							<ul class="list-group list-group-flush">
-								<li class="list-group-item bg-dark d-flex justify-content-between">
-									<span><h5 class="card-title text-white">Date: </h5></span>
-									<span class="card-text text-white">01.01.2022</span>
-								</li>
-								<li class="list-group-item bg-dark d-flex justify-content-between">
-									<span><h5 class="card-title text-white">Category:</h5></span>
-									<span class="card-text text-white">Food</span>
-								</li>
-								<li class="list-group-item bg-dark d-flex justify-content-between">
-									<span><h5 class="card-title text-white">Spent:</h5></span>
-									<span class="spent card-text fs-4">200000</span>
-								</li>
-								<li class="list-group-item bg-dark">
-									<h5 class="card-title text-white">Comments:</h5>
-									<p class="card-text text-white">
-										Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-										Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-									</p>
-								</li>
-							</ul>
+					<template id="record-card">
+						<div class="record-card card bg-dark col-sm-6 col-md-3 my-3 mx-2">
+							<div class="card-body">
+								<ul class="list-group list-group-flush">
+									<li class="list-group-item bg-dark d-flex justify-content-between">
+										<span><h5 class="card-title text-white">Date: </h5></span>
+										<span id="record-date" class="card-text text-white"></span>
+									</li>
+									<li class="list-group-item bg-dark d-flex justify-content-between">
+										<span><h5 class="card-title text-white">Category:</h5></span>
+										<span id="record-category" class="card-text text-white"></span>
+									</li>
+									<li class="list-group-item bg-dark d-flex justify-content-between">
+										<span><h5 class="card-title text-white">Spent:</h5></span>
+										<span id="record-spent" class="spent card-text fs-4"></span>
+									</li>
+									<li class="list-group-item bg-dark">
+										<h5 class="card-title text-white">Description</h5>
+										<p id="record-description" class="card-text text-white">
+										</p>
+									</li>
+								</ul>
+							</div>
+							<div class="card-footer d-flex justify-content-around py-3">
+								<a id="edit-link"  href="#" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#modalFormEditRecord">Edit</a>
+								<form data-delete>
+									<button type="submit" class="btn btn-outline-warning">Delete</button>
+								</form>
+							</div>
 						</div>
-						<div class="card-footer d-flex justify-content-around py-3">
-							<a href="#" class="btn btn-outline-warning">Edit</a>
-    						<a href="#" class="btn btn-outline-warning">Delete</a>
-  						</div>
-					</div>
-
-					<div class="record-card card bg-dark col-sm-6 col-md-3 my-3 mx-2">
-						<div class="card-body">
-							<ul class="list-group list-group-flush">
-								<li class="list-group-item bg-dark d-flex justify-content-between">
-									<span><h5 class="card-title text-white">Date: </h5></span>
-									<span class="card-text text-white">01.01.2022</span>
-								</li>
-								<li class="list-group-item bg-dark d-flex justify-content-between">
-									<span><h5 class="card-title text-white">Category:</h5></span>
-									<span class="card-text text-white">Food</span>
-								</li>
-								<li class="list-group-item bg-dark d-flex justify-content-between">
-									<span><h5 class="card-title text-white">Spent:</h5></span>
-									<span class="spent card-text fs-4">200000</span>
-								</li>
-								<li class="list-group-item bg-dark">
-									<h5 class="card-title text-white">Comments:</h5>
-									<p class="card-text text-white">
-										Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-										Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-									</p>
-								</li>
-							</ul>
-						</div>
-						<div class="card-footer d-flex justify-content-around py-3">
-							<a href="#" class="btn btn-outline-warning">Edit</a>
-    						<a href="#" class="btn btn-outline-warning">Delete</a>
-  						</div>
-					</div>
-
-					<div class="record-card card bg-dark col-sm-6 col-md-3 my-3 mx-2">
-						<div class="card-body">
-							<ul class="list-group list-group-flush">
-								<li class="list-group-item bg-dark d-flex justify-content-between">
-									<span><h5 class="card-title text-white">Date: </h5></span>
-									<span class="card-text text-white">01.01.2022</span>
-								</li>
-								<li class="list-group-item bg-dark d-flex justify-content-between">
-									<span><h5 class="card-title text-white">Category:</h5></span>
-									<span class="card-text text-white">Food</span>
-								</li>
-								<li class="list-group-item bg-dark d-flex justify-content-between">
-									<span><h5 class="card-title text-white">Spent:</h5></span>
-									<span class="spent card-text fs-4">200000</span>
-								</li>
-								<li class="list-group-item bg-dark">
-									<h5 class="card-title text-white">Comments:</h5>
-									<p class="card-text text-white">
-										Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-										Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-									</p>
-								</li>
-							</ul>
-						</div>
-						<div class="card-footer d-flex justify-content-around py-3">
-							<a href="#" class="btn btn-outline-warning">Edit</a>
-    						<a href="#" class="btn btn-outline-warning">Delete</a>
-  						</div>
-					</div>
-
-					<div class="record-card card bg-dark col-sm-6 col-md-3 my-3 mx-2">
-						<div class="card-body">
-							<ul class="list-group list-group-flush">
-								<li class="list-group-item bg-dark d-flex justify-content-between">
-									<span><h5 class="card-title text-white">Date: </h5></span>
-									<span class="card-text text-white">01.01.2022</span>
-								</li>
-								<li class="list-group-item bg-dark d-flex justify-content-between">
-									<span><h5 class="card-title text-white">Category:</h5></span>
-									<span class="card-text text-white">Food</span>
-								</li>
-								<li class="list-group-item bg-dark d-flex justify-content-between">
-									<span><h5 class="card-title text-white">Spent:</h5></span>
-									<span class="spent card-text fs-4">200000</span>
-								</li>
-								<li class="list-group-item bg-dark">
-									<h5 class="card-title text-white">Comments:</h5>
-									<p class="card-text text-white">
-										Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-										Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-									</p>
-								</li>
-							</ul>
-						</div>
-						<div class="card-footer d-flex justify-content-around py-3">
-							<a href="#" class="btn btn-outline-warning">Edit</a>
-    						<a href="#" class="btn btn-outline-warning">Delete</a>
-  						</div>
-					</div>
-
-					<div class="record-card card bg-dark col-sm-6 col-md-3 my-3 mx-2">
-						<div class="card-body">
-							<ul class="list-group list-group-flush">
-								<li class="list-group-item bg-dark d-flex justify-content-between">
-									<span><h5 class="card-title text-white">Date: </h5></span>
-									<span class="card-text text-white">01.01.2022</span>
-								</li>
-								<li class="list-group-item bg-dark d-flex justify-content-between">
-									<span><h5 class="card-title text-white">Category:</h5></span>
-									<span class="card-text text-white">Food</span>
-								</li>
-								<li class="list-group-item bg-dark d-flex justify-content-between">
-									<span><h5 class="card-title text-white">Spent:</h5></span>
-									<span class="spent card-text fs-4">200000</span>
-								</li>
-								<li class="list-group-item bg-dark">
-									<h5 class="card-title text-white">Comments:</h5>
-									<p class="card-text text-white">
-										Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-										Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-									</p>
-								</li>
-							</ul>
-						</div>
-						<div class="card-footer d-flex justify-content-around py-3">
-							<a href="#" class="btn btn-outline-warning">Edit</a>
-    						<a href="#" class="btn btn-outline-warning">Delete</a>
-  						</div>
-					</div>
-
-					<div class="record-card card bg-dark col-sm-6 col-md-3 my-3 mx-2">
-						<div class="card-body">
-							<ul class="list-group list-group-flush">
-								<li class="list-group-item bg-dark d-flex justify-content-between">
-									<span><h5 class="card-title text-white">Date: </h5></span>
-									<span class="card-text text-white">01.01.2022</span>
-								</li>
-								<li class="list-group-item bg-dark d-flex justify-content-between">
-									<span><h5 class="card-title text-white">Category:</h5></span>
-									<span class="card-text text-white">Food</span>
-								</li>
-								<li class="list-group-item bg-dark d-flex justify-content-between">
-									<span><h5 class="card-title text-white">Spent:</h5></span>
-									<span class="spent card-text fs-4">200000</span>
-								</li>
-								<li class="list-group-item bg-dark">
-									<h5 class="card-title text-white">Comments:</h5>
-									<p class="card-text text-white">
-										Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-										Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-									</p>
-								</li>
-							</ul>
-						</div>
-						<div class="card-footer d-flex justify-content-around py-3">
-							<a href="#" class="btn btn-outline-warning">Edit</a>
-    						<a href="#" class="btn btn-outline-warning">Delete</a>
-  						</div>
-					</div>
-
-					<div class="record-card card bg-dark col-sm-6 col-md-3 my-3 mx-2">
-						<div class="card-body">
-							<ul class="list-group list-group-flush">
-								<li class="list-group-item bg-dark d-flex justify-content-between">
-									<span><h5 class="card-title text-white">Date: </h5></span>
-									<span class="card-text text-white">01.01.2022</span>
-								</li>
-								<li class="list-group-item bg-dark d-flex justify-content-between">
-									<span><h5 class="card-title text-white">Category:</h5></span>
-									<span class="card-text text-white">Food</span>
-								</li>
-								<li class="list-group-item bg-dark d-flex justify-content-between">
-									<span><h5 class="card-title text-white">Spent:</h5></span>
-									<span class="spent card-text fs-4">200000</span>
-								</li>
-								<li class="list-group-item bg-dark">
-									<h5 class="card-title text-white">Comments:</h5>
-									<p class="card-text text-white">
-										Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-										Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-									</p>
-								</li>
-							</ul>
-						</div>
-						<div class="card-footer d-flex justify-content-around py-3">
-							<a href="#" class="btn btn-outline-warning">Edit</a>
-    						<a href="#" class="btn btn-outline-warning">Delete</a>
-  						</div>
-					</div>
-
-					<div class="record-card card bg-dark col-sm-6 col-md-3 my-3 mx-2">
-						<div class="card-body">
-							<ul class="list-group list-group-flush">
-								<li class="list-group-item bg-dark d-flex justify-content-between">
-									<span><h5 class="card-title text-white">Date: </h5></span>
-									<span class="card-text text-white">01.01.2022</span>
-								</li>
-								<li class="list-group-item bg-dark d-flex justify-content-between">
-									<span><h5 class="card-title text-white">Category:</h5></span>
-									<span class="card-text text-white">Food</span>
-								</li>
-								<li class="list-group-item bg-dark d-flex justify-content-between">
-									<span><h5 class="card-title text-white">Spent:</h5></span>
-									<span class="spent card-text fs-4">200000</span>
-								</li>
-								<li class="list-group-item bg-dark">
-									<h5 class="card-title text-white">Comments:</h5>
-									<p class="card-text text-white">
-										Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-										Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-									</p>
-								</li>
-							</ul>
-						</div>
-						<div class="card-footer d-flex justify-content-around py-3">
-							<a href="#" class="btn btn-outline-warning">Edit</a>
-    						<a href="#" class="btn btn-outline-warning">Delete</a>
-  						</div>
-					</div>
+					</template>
 					<!-- Record cards example -->
 				</div>
 			</div>	
 		</main>
 		<!--/MAIN -->
+
+		<div class="modal fade" id="modalFormEditRecord" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content bg-dark">
+					<div class="modal-body">
+						<div class="form-card card bg-dark mt-3">
+							<h5 class="card-header text-white text-center">Edit this Record</h5>
+							<div class="card-body">
+								<form data-edit>
+									<div class="form-floating mb-3">
+										<input name="money" value="" type="number" class="form-control" id="floatingInputNumEdit" placeholder="How much" required>
+										<label for="floatingInputNumEdit">How much money was spent?</label>
+									</div>
+									<div class="form-floating mb-3">
+										<select name="category" class="form-select" id="floatingSelectEdit" required>
+											<option value="One">One</option>
+											<option value="Two">Two</option>
+											<option value="Three">Three</option>
+										</select>
+										<label for="floatingSelectEdit">Choose a Category</label>
+									</div>
+									<div class="form-floating mb-3">
+										<textarea name="description" class="form-control" id="floatingTextareaEdit" placeholder="Description" required></textarea>
+										<label for="floatingTextareaEdit">Description</label> 
+									</div>
+									<div class="d-flex justify-content-around">
+										<button type="submit" class="btn btn-outline-warning btn-lg">
+											Update
+										</button>
+										<button type="reset" class="btn btn-outline-warning btn-lg">
+											Clear
+										</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-outline-warning" data-bs-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
 
 		<!-- FOOTER -->
 		<%- include('partials/footer'); -%>
