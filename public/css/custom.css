@@ -58,14 +58,14 @@ h1, h2, h3, h4, h5, h6,
 		width: 350px;
 	}
 
-	.canvas-card {
+	/* .canvas-card {
 		width: 360px !important;
 	}
 
 	#graph {
 		width: 300px !important;
 		height: 240px !important;
-	}
+	} */
 }
 
 /* @media only screen and (min-width: 576px) {

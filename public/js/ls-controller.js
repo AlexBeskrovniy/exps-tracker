@@ -2,6 +2,20 @@ const LS_RECORDS_KEY = 'ls-records';
 const LS_CATEGORIES_KEY = 'ls-categories';
 const LS_TOTAL_SPENT_KEY = 'ls-total';
 
+// HELPERS
+//Get updated total spent value
+function getTotalSpent(){
+    return localStorage[LS_TOTAL_SPENT_KEY]
+            ? localStorage[LS_TOTAL_SPENT_KEY]
+            : 0;
+}
+
+function getAllRecords() {
+    return JSON.parse(localStorage[LS_RECORDS_KEY]);
+}
+//HELPERS
+
+
 //Create new Record and update total spent value
 function createRecord() {
     const recordForm = document.querySelector('[data-record]');
@@ -23,23 +37,10 @@ function createRecord() {
         localStorage[LS_RECORDS_KEY] = JSON.stringify([record, ...records]); 
 
         //Save updated total spent value
-        const oldTotal = 
-            localStorage[LS_TOTAL_SPENT_KEY]
-                ? localStorage[LS_TOTAL_SPENT_KEY]
-                : localStorage[LS_TOTAL_SPENT_KEY] = 0;
+        const oldTotal = getTotalSpent();
 
         localStorage[LS_TOTAL_SPENT_KEY] = Number(oldTotal) + Number(record.money);
-                console.log(oldTotal);
-                console.log(localStorage[LS_TOTAL_SPENT_KEY]);
-        
     }
-}
-
-//Show updated total spent value
-function getTotalSpent(){
-    return localStorage[LS_TOTAL_SPENT_KEY]
-            ? localStorage[LS_TOTAL_SPENT_KEY]
-            : 0;
 }
 
 function showTotalSpent(){
@@ -48,10 +49,6 @@ function showTotalSpent(){
 }
 
 //Show all records
-function getAllRecords() {
-    return JSON.parse(localStorage[LS_RECORDS_KEY]);
-}
-
 function showAllRecords() {
     const allRecords = getAllRecords();
     const wrap = document.getElementById('record-wrap');
@@ -106,7 +103,7 @@ function showEditForm(timestamp){
             category.insertAdjacentHTML('afterbegin',
                         `<option value="${allRecords[i].category}" selected>${allRecords[i].category}</option>`);
             description.textContent = allRecords[i].description;
-            editForm.setAttribute("onsubmit", `updateRecord(${allRecords[i].date});`);
+            editForm.setAttribute("onsubmit", `updateRecord(${allRecords[i].date}); updateTotalSpent();`);
         }
     }
 }
@@ -126,7 +123,6 @@ function updateRecord(timestamp) {
     
         for (let i = 0; i < allRecords.length; i+=1) {
             if (allRecords[i].date === timestamp) {
-                //localStorage[LS_TOTAL_SPENT_KEY] = Number(oldTotal) - Number(allRecords[i].money);
                 allRecords.splice(i, 1, newRecord);
             }
         }
@@ -134,4 +130,15 @@ function updateRecord(timestamp) {
     }
 }
 
-console.log(getAllRecords());
+//Updating total spent before record updating
+function updateTotalSpent() {
+    const allRecords = getAllRecords();
+    let totalSpent = 0;
+    allRecords.forEach(function(record) {
+        totalSpent += Number(record.money);
+    });
+
+    localStorage[LS_TOTAL_SPENT_KEY] = totalSpent;
+}
+
+console.log(localStorage[LS_TOTAL_SPENT_KEY]);
