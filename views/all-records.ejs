@@ -3,7 +3,8 @@
 	<head>
 		<%- include('partials/head'); -%>
     </head>
-	<body onload="showTotalSpent(); showAllRecords();">
+	<body>
+		<!-- onload="showTotalSpent(); showAllRecords();" by ls-->
 		<!-- HEADER -->
 		<%- include('partials/header'); -%>
 		<!--/HEADER -->
@@ -16,8 +17,44 @@
 				</div>
 
 				<div id="record-wrap" class="d-flex row justify-content-center justify-content-md-between">
-					<!-- Record cards template -->
-					<template id="record-card">
+					<% if (records) {
+						records.forEach(function(record) { %>
+					<div class="record-card card bg-dark col-sm-6 col-md-3 my-3 mx-2" id="<%= record.date %>">
+						<div class="card-body">
+							<ul class="list-group list-group-flush">
+								<li class="list-group-item bg-dark d-flex justify-content-between">
+									<span><h5 class="card-title text-white">Date: </h5></span>
+									<span id="record-date" class="card-text text-white"><%= new Date(record.date).toDateString(); %></span>
+								</li>
+								<li class="list-group-item bg-dark d-flex justify-content-between">
+									<span><h5 class="card-title text-white">Category:</h5></span>
+									<span id="record-category" class="card-text text-white"><%= record.category %></span>
+								</li>
+								<li class="list-group-item bg-dark d-flex justify-content-between">
+									<span><h5 class="card-title text-white">Spent:</h5></span>
+									<span id="record-spent" class="spent card-text fs-4"><%= record.money %></span>
+								</li>
+								<li class="list-group-item bg-dark">
+									<h5 class="card-title text-white">Description</h5>
+									<p id="record-description" class="card-text text-white">
+										<%= record.description %>
+									</p>
+								</li>
+							</ul>
+						</div>
+						<div class="card-footer d-flex justify-content-around py-3">
+							<a id="edit-link"  href="#" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#modalFormEditRecord">Edit</a>
+							<form data-delete>
+								<input type="hidden" name="id" value="<%=record.date%>">
+								<button id="delete" type="submit" class="btn btn-outline-warning">Delete</button>
+							</form>
+						</div>
+					</div>
+					<%	});
+					} %> 
+					
+					<%#<!-- Record cards template -->
+					<!-- <template id="record-card">
 						<div class="record-card card bg-dark col-sm-6 col-md-3 my-3 mx-2">
 							<div class="card-body">
 								<ul class="list-group list-group-flush">
@@ -47,8 +84,8 @@
 								</form>
 							</div>
 						</div>
-					</template>
-					<!-- Record cards template -->
+					</template> -->
+					<!-- Record cards template --> %>
 				</div>
 			</div>	
 		</main>

@@ -3,7 +3,6 @@ const LS_CATEGORIES_KEY = 'ls-categories';
 const LS_TOTAL_SPENT_KEY = 'ls-total';
 
 // HELPERS
-//Get updated total spent value
 function getTotalSpent(){
     return localStorage[LS_TOTAL_SPENT_KEY]
             ? localStorage[LS_TOTAL_SPENT_KEY]
