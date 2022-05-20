@@ -6,7 +6,6 @@ const HOST = 'localhost';
 const PORT = 3000;
 
 //Setting body-parser
-const urlencodedParser = express.urlencoded({extended: false});
 const jsonParser = express.json();
 
 //Setting view engine
@@ -33,6 +32,7 @@ app.get('/all-records', (req, res) => {
 });
 
 //POST Requests
+//Create
 app.post('/', jsonParser, (req, res) => {
 	if (!req.body) {
 		console.log("No data.");
@@ -54,22 +54,49 @@ app.post('/', jsonParser, (req, res) => {
 		}
 	
 });
-
+//Delete
 app.post('/all-records', jsonParser, (req, res) => {
-	if (!req.body) {
-		console.log("No data.");
-	}
-	let records = fs.readFileSync('db/records.json');
-	records = JSON.parse(records);
-	let id = req.body.id;
+	if (req.body.id) {
+		let records = fs.readFileSync('db/records.json');
+		records = JSON.parse(records);
+		let id = req.body.id;
 
-	for (let i = 0; i < records.length; i+=1) {
-        if (records[i].date === Number(id)) {
-            records.splice(i, 1);
-			fs.writeFileSync('db/records.json', JSON.stringify(records, null, '\t'));		
-        }
-    }
-	res.status(201).send(records);
+		for (let i = 0; i < records.length; i+=1) {
+			if (Number(records[i].date) === Number(id)) {
+				records.splice(i, 1);
+				fs.writeFileSync('db/records.json', JSON.stringify(records, null, '\t'));
+				res.status(201).send(records);	
+			}
+		}
+	}	
+});
+//Update
+app.post('/edit-record', jsonParser, (req, res) => {
+	if (req.body) {
+		let editedRecord = req.body;
+		let records = fs.readFileSync('db/records.json');
+		records = JSON.parse(records);
+
+		for (let i = 0; i < records.length; i+=1) {
+			if (Number(records[i].date) === Number(editedRecord.date)) {
+				records.splice(i, 1, editedRecord);
+				fs.writeFileSync('db/records.json', JSON.stringify(records, null, '\t'));
+				res.status(201).send(editedRecord);	
+			}
+		}
+	}
+});
+//Total
+app.post('/total', jsonParser, (req, res) => {
+	let records = JSON.parse(fs.readFileSync('db/records.json'));
+	if (records) {
+		let result = 0;
+		for (let i = 0; i < records.length; i+=1) {
+			result += Number(records[i].money);
+		}
+		res.status(200);
+		res.send({result: result});
+	};
 });
 
 app.listen(PORT);

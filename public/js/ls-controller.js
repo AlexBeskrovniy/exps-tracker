@@ -54,7 +54,6 @@ function showAllRecords() {
     const temp = document.getElementById('record-card');
 
     allRecords.forEach(function(record) {
-        //console.log(record);
         let clone = temp.content.cloneNode(true);
 
         let date = clone.getElementById('record-date');
