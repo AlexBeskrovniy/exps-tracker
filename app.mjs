@@ -1,12 +1,24 @@
 import express from 'express';
-import * as fs from 'fs';
+import mongoose from 'mongoose';
+import { Record } from './models/record.mjs';
 
 const app = express();
 const HOST = 'localhost';
 const PORT = 3000;
 
+//MongoDB connecting
+mongoose.connect('mongodb://localhost/exps-tracker');
+const db = mongoose.connection;
+db.on('error', err => {
+	console.log('error', err)
+  });
+db.once('open', () => {
+	console.log('We are connected to MongoDB')
+  });
+
 //Setting body-parser
 const jsonParser = express.json();
+const urlencodedParser = express.urlencoded();
 
 //Setting view engine
 app.set('view engine', 'ejs');
@@ -14,21 +26,38 @@ app.set('view engine', 'ejs');
 //Public files
 app.use(express.static('public'));
 
+//Total spent query
+const totalSpent = async () => {
+	const allMoney = await Record.find({}, {money: 1, _id: 0}).exec();
+	let total = 0;
+	allMoney.forEach(function(money) {
+		total += money.money;
+	});
+	return total;
+}
+const total = await totalSpent();
+
 //index page route
 app.get('/', (req, res) => {
-	res.render('index.ejs');
+	res.render('index.ejs', { total: total });
 });
 
 //categories page route
 app.get('/categories', (req, res) => {
-	res.render('categories.ejs');
+	res.render('categories.ejs', { total: total });
 });
 
 //all-records page route
 app.get('/all-records', (req, res) => {
-	let records = fs.readFileSync('db/records.json');
-	records = JSON.parse(records);
-	res.render('all-records.ejs', {records: records});
+	Record.find({}).sort({ createdAt: -1 }).exec( (err, records)  => {
+		if (err) {
+			console.log(err);
+		}
+		res.render('all-records.ejs', {
+			records: records,
+			total: total 
+		});
+	});
 });
 
 //POST Requests
@@ -37,67 +66,21 @@ app.post('/', jsonParser, (req, res) => {
 	if (!req.body) {
 		console.log("No data.");
 	}
-	let newRecord = req.body;
-		if (!fs.existsSync('db/records.json')) {
-			fs.writeFileSync('db/records.json', JSON.stringify([newRecord]));
-			res.status(201).send(newRecord);
-		} else {
-			let existsRecords = fs.readFileSync('db/records.json')
-
-			existsRecords = JSON.parse(existsRecords);
-
-			existsRecords.unshift(newRecord);
-			
-			fs.writeFileSync('db/records.json', JSON.stringify(existsRecords, null, '\t'));
-
-			res.status(201).send(existsRecords);
+	let newRecord = new Record({
+		money: req.body.money,
+		category: req.body.category,
+		description: req.body.description
+	});
+	newRecord.save((err, newRecord) => {
+		if (err) {
+		  console.log('err', err);
 		}
-	
-});
-//Delete
-app.post('/all-records', jsonParser, (req, res) => {
-	if (req.body.id) {
-		let records = fs.readFileSync('db/records.json');
-		records = JSON.parse(records);
-		let id = req.body.id;
-
-		for (let i = 0; i < records.length; i+=1) {
-			if (Number(records[i].date) === Number(id)) {
-				records.splice(i, 1);
-				fs.writeFileSync('db/records.json', JSON.stringify(records, null, '\t'));
-				res.status(201).send(records);	
-			}
-		}
-	}	
-});
-//Update
-app.post('/edit-record', jsonParser, (req, res) => {
-	if (req.body) {
-		let editedRecord = req.body;
-		let records = fs.readFileSync('db/records.json');
-		records = JSON.parse(records);
-
-		for (let i = 0; i < records.length; i+=1) {
-			if (Number(records[i].date) === Number(editedRecord.date)) {
-				records.splice(i, 1, editedRecord);
-				fs.writeFileSync('db/records.json', JSON.stringify(records, null, '\t'));
-				res.status(201).send(editedRecord);	
-			}
-		}
-	}
-});
-//Total
-app.post('/total', jsonParser, (req, res) => {
-	let records = JSON.parse(fs.readFileSync('db/records.json'));
-	if (records) {
-		let result = 0;
-		for (let i = 0; i < records.length; i+=1) {
-			result += Number(records[i].money);
-		}
-		res.status(200);
-		res.send({result: result});
-	};
+		res.status(201).send("OK");
+		console.log('Saved record', newRecord);
+		
+	  });
 });
 
-app.listen(PORT);
-console.log(`Server has started on the ${HOST}: ${PORT}`);
+app.listen(PORT, () => {
+	console.log(`Server has started on the ${HOST}: ${PORT}`);
+});
