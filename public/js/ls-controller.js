@@ -81,13 +81,16 @@ function showAllRecords() {
 function deleteRecord(timestamp) {
     const allRecords = getAllRecords();
     const oldTotal = getTotalSpent();
-    for (let i = 0; i < allRecords.length; i+=1) {
-        if (allRecords[i].date === timestamp) {
-            localStorage[LS_TOTAL_SPENT_KEY] = Number(oldTotal) - Number(allRecords[i].money);
-            allRecords.splice(i, 1);
-        }
-    }
-    localStorage[LS_RECORDS_KEY] = JSON.stringify([...allRecords]);
+    const deleteRecod = allRecords.find(item => +item.date === +timestamp);
+    localStorage[LS_TOTAL_SPENT_KEY] -= deleteRecod.money;
+    localStorage[LS_RECORDS_KEY] = allRecords.filter(item => +item.date !== +timestamp);
+    // for (let i = 0; i < allRecords.length; i+=1) {
+    //     if (allRecords[i].date === timestamp) {
+    //         localStorage[LS_TOTAL_SPENT_KEY] = Number(oldTotal) - Number(allRecords[i].money);
+    //         allRecords.splice(i, 1);
+    //     }
+    // }
+    // localStorage[LS_RECORDS_KEY] = JSON.stringify([...allRecords]);
 }
 
 function showEditForm(timestamp){
