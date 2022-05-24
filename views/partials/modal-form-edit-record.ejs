@@ -7,7 +7,7 @@
                     <div class="card-body">
                         <form data-edit>
                             <div class="form-floating mb-3">
-                                <input name="money" value="" type="number" class="form-control" id="floatingInputNumEdit" placeholder="How much" required>
+                                <input name="money" type="number" class="form-control" id="floatingInputNumEdit" placeholder="How much" required>
                                 <label for="floatingInputNumEdit">How much money was spent?</label>
                             </div>
                             <div class="form-floating mb-3">
@@ -22,6 +22,7 @@
                                 <textarea name="description" class="form-control" id="floatingTextareaEdit" placeholder="Description" required></textarea>
                                 <label for="floatingTextareaEdit">Description</label> 
                             </div>
+                            <input name="date" type="hidden">
                             <div class="d-flex justify-content-around">
                                 <button id="update" type="submit" class="btn btn-outline-warning btn-lg">
                                     Update

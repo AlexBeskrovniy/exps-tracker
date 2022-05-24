@@ -4,6 +4,7 @@
 		<%- include('partials/head'); -%>
     </head>
 	<body>
+		<!-- onload="showTotalSpent(); showAllRecords();" by ls-->
 		<!-- HEADER -->
 		<%- include('partials/header'); -%>
 		<!--/HEADER -->
@@ -15,7 +16,7 @@
 					<h2 class="page-title ms-2 mb-0">All Records</h2>
 				</div>
 
-				<div id="record-wraper" class="d-flex row justify-content-center justify-content-md-between">
+				<div id="record-wrap" class="d-flex row justify-content-center justify-content-md-between">
 					<% if (records) {
 						records.forEach(function(record) { %>
 					<div class="record-card card bg-dark col-sm-6 col-md-3 my-3 mx-2" id="<%= record.date %>">
@@ -42,8 +43,11 @@
 							</ul>
 						</div>
 						<div class="card-footer d-flex justify-content-around py-3">
-							<a data-edit-button="<%=record.date%>" href="form-edit/<%=record.date%>" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#modalFormEditRecord">Edit</a>
-							<a data-delete-button="<%=record.date%>" href="#" class="btn btn-outline-warning">Delete</a>
+							<a id="<%=record.date%>" data-edit-button="<%=record.date%>" href="#" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#modalFormEditRecord">Edit</a>
+							<form data-delete>
+								<input type="hidden" name="id" value="<%=record.date%>">
+								<button id="delete" type="submit" class="btn btn-outline-warning">Delete</button>
+							</form>
 						</div>
 					</div>
 					<%	});

@@ -1,103 +1,107 @@
 import express from 'express';
 import * as fs from 'fs';
 
+import noJsRouter from './routes/no-js-router.mjs';
+
 const app = express();
 const HOST = 'localhost';
 const PORT = 3000;
+const DB_PATH = 'db/records.json';
 
 //Setting body-parser
-const jsonParser = express.json();
+app.use(express.json());
+app.use(express.urlencoded());
 
 //Setting view engine
 app.set('view engine', 'ejs');
 
+app.set('views', './views');
+
 //Public files
 app.use(express.static('public'));
 
+//No js
+app.use(noJsRouter);
+
+//Helpers for routes
+const readAllRecords = () => JSON.parse(fs.readFileSync(DB_PATH));
+
+const writeRecordsToFile = (path, array) => {
+	fs.writeFileSync(path, JSON.stringify(array, null, '\t'));
+}
+const totalSpent = () => {
+	let records = readAllRecords();
+	let total = 0;
+	records.map(record => total += +record.money);
+	return total;
+}
+
 //index page route
 app.get('/', (req, res) => {
-	res.render('index.ejs');
+	let total = totalSpent();
+	res.render('index.ejs', { totalSpent: total });
 });
 
 //categories page route
 app.get('/categories', (req, res) => {
-	res.render('categories.ejs');
+	let total = totalSpent();
+	res.render('categories.ejs', { totalSpent: total });
 });
 
 //all-records page route
 app.get('/all-records', (req, res) => {
-	let records = fs.readFileSync('db/records.json');
-	records = JSON.parse(records);
-	res.render('all-records.ejs', {records: records});
-});
-
-//POST Requests
-//Create
-app.post('/', jsonParser, (req, res) => {
-	if (!req.body) {
-		console.log("No data.");
+	if (fs.existsSync(DB_PATH)) {
+		let records = readAllRecords();
+		let total = totalSpent();
+		return res.render('all-records.ejs', {
+			records: records,
+			totalSpent: total
+		});
 	}
-	let newRecord = req.body;
-		if (!fs.existsSync('db/records.json')) {
-			fs.writeFileSync('db/records.json', JSON.stringify([newRecord]));
-			res.status(201).send(newRecord);
-		} else {
-			let existsRecords = fs.readFileSync('db/records.json')
-
-			existsRecords = JSON.parse(existsRecords);
-
-			existsRecords.unshift(newRecord);
-			
-			fs.writeFileSync('db/records.json', JSON.stringify(existsRecords, null, '\t'));
-
-			res.status(201).send(existsRecords);
-		}
-	
-});
-//Delete
-app.post('/all-records', jsonParser, (req, res) => {
-	if (req.body.id) {
-		let records = fs.readFileSync('db/records.json');
-		records = JSON.parse(records);
-		let id = req.body.id;
-
-		for (let i = 0; i < records.length; i+=1) {
-			if (Number(records[i].date) === Number(id)) {
-				records.splice(i, 1);
-				fs.writeFileSync('db/records.json', JSON.stringify(records, null, '\t'));
-				res.status(201).send(records);	
-			}
-		}
-	}	
-});
-//Update
-app.post('/edit-record', jsonParser, (req, res) => {
-	if (req.body) {
-		let editedRecord = req.body;
-		let records = fs.readFileSync('db/records.json');
-		records = JSON.parse(records);
-
-		for (let i = 0; i < records.length; i+=1) {
-			if (Number(records[i].date) === Number(editedRecord.date)) {
-				records.splice(i, 1, editedRecord);
-				fs.writeFileSync('db/records.json', JSON.stringify(records, null, '\t'));
-				res.status(201).send(editedRecord);	
-			}
-		}
-	}
-});
-//Total
-app.post('/total', jsonParser, (req, res) => {
-	let records = JSON.parse(fs.readFileSync('db/records.json'));
-	if (records) {
-		let result = 0;
-		for (let i = 0; i < records.length; i+=1) {
-			result += Number(records[i].money);
-		}
-		res.status(200);
-		res.send({result: result});
-	};
+	return res.render('all-records.ejs', {message: "No Data"});
 });
 
-app.listen(PORT);
-console.log(`Server has started on the ${HOST}: ${PORT}`);
+// //POST Requests
+// //Create
+// app.post('/create-record', (req, res) => {
+// 	let newRecord = req.body;
+// 		if (!fs.existsSync(DB_PATH)) {
+// 			fs.writeFileSync(DB_PATH, JSON.stringify([newRecord]));
+// 		} else {
+// 			let records = readAllRecords();
+// 			records.unshift(newRecord);
+// 			writeRecordsToFile(DB_PATH, records);
+// 		}
+// 	let total = totalSpent();
+
+// 	res.status(201).send( {total} );
+// });
+// //Update
+// app.post('/edit-record', (req, res) => {
+// 	if (req.body) {
+// 		let editedRecord = req.body;
+// 		let records = readAllRecords();
+// 		let index = records.findIndex(record => record.date === editedRecord.date );
+// 		records.splice(index, 1, editedRecord);
+// 		writeRecordsToFile(DB_PATH, records);
+// 		let total = totalSpent();
+
+// 		res.status(201).send( {editedRecord, total} );	
+// 	}
+// });
+// //Delete
+// app.post('/delete-record', (req, res) => {
+// 	if (req.body.id) {
+// 		let records = readAllRecords();
+// 		let id = req.body.id;
+// 		let newRecords = records.filter(record => record.date !== id);
+// 		writeRecordsToFile(DB_PATH, newRecords);
+// 		let total = totalSpent();
+
+// 		res.status(201).send( {id, total} );
+// 	}	
+// });
+
+app.listen(PORT, () => {
+	console.log(`Server has started on the ${HOST}: ${PORT}`);
+});
