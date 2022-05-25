@@ -32,11 +32,14 @@ if (recordForm) {
 }
 
 //Update Record
-const editButtons = document.querySelectorAll('[data-edit-button]');
-const modalEdit = document.getElementById("modalFormEditRecord");
-const inputs = ['money', 'description', 'category', 'date'];
-const editForm = modalEdit.querySelector('[data-edit]');
-if (editButtons) {
+const wrapper = document.getElementById('record-wrapper');
+
+if (wrapper) {
+    const editButtons = document.querySelectorAll('[data-edit-button]');
+    const modalEdit = document.getElementById("modalFormEditRecord");
+    const inputs = ['money', 'description', 'category', 'date'];
+    const editForm = modalEdit.querySelector('[data-edit]');
+
     Array.from(editButtons).map(button => {
         button.addEventListener('click', e => {
             e.preventDefault();

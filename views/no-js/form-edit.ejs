@@ -49,14 +49,14 @@
                     <div class="form-card card bg-dark mt-3">
                         <h5 class="card-header text-white text-center">Edit this Record</h5>
                         <div class="card-body">
-                            <form data-edit action="edit-record" method="POST" enctype="application/x-www-form-urlencoded">
+                            <form data-edit action="/edit-record-no-js" method="POST" enctype="application/x-www-form-urlencoded">
                                 <div class="form-floating mb-3">
-                                    <input name="money" type="number" value="<%=record[0]%>" class="form-control" id="floatingInputNumEdit" placeholder="How much" required>
+                                    <input name="money" type="number" value="<%=editedRecord.money%>" class="form-control" id="floatingInputNumEdit" placeholder="How much" required>
                                     <label for="floatingInputNumEdit">How much money was spent?</label>
                                 </div>
                                 <div class="form-floating mb-3">
                                     <select name="category" class="form-select" id="floatingSelectEdit" required>
-                                        <option value="<%=record[1]%>" selected><%=record[1]%></option>>
+                                        <option value="<%=editedRecord.category%>" selected><%=editedRecord.category%></option>>
                                         <option value="One">One</option>
                                         <option value="Two">Two</option>
                                         <option value="Three">Three</option>
@@ -64,12 +64,10 @@
                                     <label for="floatingSelectEdit">Choose a Category</label>
                                 </div>
                                 <div class="form-floating mb-3">
-                                    <textarea name="description" class="form-control" id="floatingTextareaEdit" placeholder="Description" required>
-                                        <%=record[2]%>
-                                    </textarea>
+                                    <textarea name="description" class="form-control" id="floatingTextareaEdit" placeholder="Description" required><%=editedRecord.description%></textarea>
                                     <label for="floatingTextareaEdit">Description</label> 
                                 </div>
-                               <input type="hidden" name="id" value="<%=record[3]%>">
+                               <input type="hidden" name="id" value="<%=editedRecord.date%>">
                                 <div class="d-flex justify-content-around">
                                     <button id="update" type="submit" class="btn btn-outline-warning btn-lg">
                                         Update

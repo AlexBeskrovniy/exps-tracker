@@ -11,35 +11,23 @@ const writeRecordsToFile = (path, array) => {
 	fs.writeFileSync(path, JSON.stringify(array, null, '\t'));
 }
 const totalSpent = () => {
-	let records = readAllRecords();
 	let total = 0;
-	records.map(record => total += +record.money);
+	if (fs.existsSync(DB_PATH)) {
+		let records = readAllRecords();
+		records.map(record => total += +record.money);
+		return total;
+	}
 	return total;
 }
 
 router
-  //POST Requests
 //Show Form Create
     .get('/form-create', (req, res) => {
         let total = totalSpent();
         res.render('no-js/form-create.ejs', { totalSpent: total });
     })
-//Show Form Edit
-    .get('/form-edit/:id', (req, res) => {
-        let records = readAllRecords();
-        let editedRecord = records.find(record => record.date === req.params.id);
-        console.log(editedRecord);
-        let money, category, description, date;
-        ({ money, category, description, date } = editedRecord);
-        let record = [money, category, description, date];
-        let total = totalSpent();
-        res.render('no-js/form-edit.ejs', { 
-            totalSpent: total,
-            record
-        });
-    })
-//Create
-    .post('/create-record', (req, res) => {
+//Create Record
+    .post('/create-record-no-js', (req, res) => {
         let newRecord = {
             money: req.body.money,
             category: req.body.category,
@@ -56,30 +44,43 @@ router
 
         res.status(201).redirect('/');
     })
-//Update
-    .post('/edit-record', (req, res) => {
+//Show Form Edit
+    .get('/form-edit/:id', (req, res) => {
+        let records = readAllRecords();
+        let editedRecord = records.find(record => record.date === req.params.id);
+        let total = totalSpent();
+
+        res.render('no-js/form-edit.ejs', { 
+            totalSpent: total,
+            editedRecord
+        });
+    })
+//Update Record
+    .post('/edit-record-no-js', (req, res) => {
         if (req.body) {
-            let editedRecord = req.body;
+            let editedRecord = {
+                money: req.body.money,
+                category: req.body.category,
+                description: req.body.description,
+                date: req.body.id
+            };
+            console.log(editedRecord);
             let records = readAllRecords();
             let index = records.findIndex(record => record.date === editedRecord.date );
             records.splice(index, 1, editedRecord);
             writeRecordsToFile(DB_PATH, records);
-            let total = totalSpent();
 
-            res.status(201).send( {editedRecord, total} );	
+            res.status(201).redirect('/all-records');	
         }
     })
-//Delete
-    .post('/delete-record', (req, res) => {
-        if (req.body.id) {
+//Delete Record
+    .get('/delete-record-no-js/:id', (req, res) => {
             let records = readAllRecords();
-            let id = req.body.id;
+            let id = req.params.id;
             let newRecords = records.filter(record => record.date !== id);
             writeRecordsToFile(DB_PATH, newRecords);
-            let total = totalSpent();
 
-            res.status(201).send( {id, total} );
-        }	
+            res.status(201).redirect('/all-records');
     });
 
-export default router
+export default router;
