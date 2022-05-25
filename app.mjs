@@ -1,5 +1,6 @@
 import express from 'express';
 import * as fs from 'fs';
+import mongoose from 'mongoose';
 
 import noJsRouter from './routes/no-js-router.mjs';
 
@@ -7,6 +8,16 @@ const app = express();
 const HOST = 'localhost';
 const PORT = 3000;
 const DB_PATH = 'db/records.json';
+
+//MongoDB Connection
+mongoose
+	.connect('mongodb+srv://AlexBlacksmith:DarkTower1111@firstcluster.pqimp.mongodb.net/?retryWrites=true&w=majority',
+		{
+			useNewUrlParser: true
+		}
+	)
+	.then( () => console.log('Mongo has connected.'))
+	.catch(err => console.log(err));
 
 //Setting body-parser
 app.use(express.json());
