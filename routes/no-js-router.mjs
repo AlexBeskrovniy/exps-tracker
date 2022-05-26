@@ -1,86 +1,91 @@
 import { Router } from 'express';
-import * as fs from 'fs';
+import { Record } from '../models/record.mjs';
 
 const router = Router();
 
-const DB_PATH = 'db/records.json';
 //Helpers for routes
-const readAllRecords = () => JSON.parse(fs.readFileSync(DB_PATH));
-
-const writeRecordsToFile = (path, array) => {
-	fs.writeFileSync(path, JSON.stringify(array, null, '\t'));
-}
-const totalSpent = () => {
-	let total = 0;
-	if (fs.existsSync(DB_PATH)) {
-		let records = readAllRecords();
-		records.map(record => total += +record.money);
+//Total spent query
+const totalSpent = async () => {
+	try {
+		const allMoney = await Record.find({}, {money: 1, _id: 0});
+		let total = 0;
+		allMoney.forEach(function(money) {
+			total += money.money;
+		});
 		return total;
+	} catch (err) {
+		console.error(err);
 	}
-	return total;
 }
 
 router
 //Show Form Create
-    .get('/form-create', (req, res) => {
-        let total = totalSpent();
+    .get('/form-create', async (req, res) => {
+        const total = await totalSpent();
         res.render('no-js/form-create.ejs', { totalSpent: total });
     })
 //Create Record
     .post('/create-record-no-js', (req, res) => {
-        let newRecord = {
+        Record.create({
             money: req.body.money,
             category: req.body.category,
-            description: req.body.description,
-            date: Date.parse(req.body.date).toString()
-        };
-            if (!fs.existsSync(DB_PATH)) {
-                fs.writeFileSync(DB_PATH, JSON.stringify([newRecord]));
-            } else {
-                let records = readAllRecords();
-                records.unshift(newRecord);
-                writeRecordsToFile(DB_PATH, records);
-            }
-
-        res.status(201).redirect('/');
-    })
-//Show Form Edit
-    .get('/form-edit/:id', (req, res) => {
-        let records = readAllRecords();
-        let editedRecord = records.find(record => record.date === req.params.id);
-        let total = totalSpent();
-
-        res.render('no-js/form-edit.ejs', { 
-            totalSpent: total,
-            editedRecord
+            description: req.body.description
+        })
+        .then(record => {
+            res.status(201).redirect('/');
+        })
+        .catch(
+            err => { console.error(err);
+            res.status(400).end();
         });
     })
+//Show Form Edit
+    .get('/form-edit/:id', async (req, res) => {
+        try {
+            const editedRecord = await Record.findOne({_id: req.params.id });
+        
+            if (!editedRecord) {
+              return res.status(400).end();
+            }
+            const total = await totalSpent();
+            res.render('no-js/form-edit.ejs', {
+                totalSpent: total,
+                editedRecord
+            });
+          } catch (e) {
+            console.error(e);
+            res.status(400).end();
+          }
+    })
 //Update Record
-    .post('/edit-record-no-js', (req, res) => {
-        if (req.body) {
-            let editedRecord = {
-                money: req.body.money,
-                category: req.body.category,
-                description: req.body.description,
-                date: req.body.id
-            };
-            console.log(editedRecord);
-            let records = readAllRecords();
-            let index = records.findIndex(record => record.date === editedRecord.date );
-            records.splice(index, 1, editedRecord);
-            writeRecordsToFile(DB_PATH, records);
+    .post('/edit-record-no-js', async (req, res) => {
+        try {
+            const editedRecord = await Record.findOneAndUpdate({ _id: req.body.id }, req.body, { new: true });
 
-            res.status(201).redirect('/all-records');	
+            if (!editedRecord) {
+            return res.status(400).end()
+            }
+
+            res.status(200).redirect('/all-records');
+        } catch (err) {
+            console.error(err)
+            res.status(400).end()
         }
     })
 //Delete Record
-    .get('/delete-record-no-js/:id', (req, res) => {
-            let records = readAllRecords();
-            let id = req.params.id;
-            let newRecords = records.filter(record => record.date !== id);
-            writeRecordsToFile(DB_PATH, newRecords);
-
-            res.status(201).redirect('/all-records');
+    .get('/delete-record-no-js/:id', async (req, res) => {
+        try {
+            const deleted = await Record.findOneAndRemove({ _id: req.params.id });
+        
+            if (!deleted) {
+            return res.status(400).end();
+            }
+            
+            return res.status(200).redirect('/all-records');
+        } catch (err) {
+            console.error(err);
+            res.status(400).end();
+        }
     });
 
 export default router;
