@@ -5,16 +5,20 @@
                 <div class="form-card card bg-dark mt-3">
                     <h5 class="card-header text-white text-center">Edit this Record</h5>
                     <div class="card-body">
-                        <form data-edit>
+                        <form data-edit-record>
                             <div class="form-floating mb-3">
                                 <input name="money" type="number" class="form-control" id="floatingInputNumEdit" placeholder="How much" required>
                                 <label for="floatingInputNumEdit">How much money was spent?</label>
                             </div>
                             <div class="form-floating mb-3">
                                 <select name="category" class="form-select" id="floatingSelectEdit" required>
-                                    <option value="One">One</option>
-                                    <option value="Two">Two</option>
-                                    <option value="Three">Three</option>
+                                    <% if (categoriesNames) {
+										categoriesNames.forEach(function(category) { %>
+											<option value="<%=category.name%>"><%=category.name%></option>
+										<% });
+									} else { %>
+										<option value="No Categories">No Categories</option>
+									<%}%> 
                                 </select>
                                 <label for="floatingSelectEdit">Choose a Category</label>
                             </div>
@@ -41,9 +45,3 @@
         </div>
     </div>
 </div>
-
-<template id="edit-feedback">
-    <div id="temp-div" class="text-center text-white my-3 mx-2">
-       <h2 id="message"></h2>
-    </div>
-</template>

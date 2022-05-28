@@ -1,0 +1,80 @@
+import { Router } from 'express';
+import { Record } from '../models/record.mjs';
+import { Category } from '../models/category.mjs';
+
+const router = Router();
+
+//Helpers for routes
+//Total spent query
+const totalSpent = async () => {
+	try {
+		const allMoney = await Record.find({}, {money: 1, _id: 0});
+		let total = 0;
+		allMoney.forEach(function(money) {
+			total += money.money;
+		});
+		return total;
+	} catch (err) {
+		console.error(err);
+	}
+}
+
+router
+   //index page route
+    .get('/', async (req, res) => {
+        try {
+            const categoriesNames = await Category.find( {}, { name:1, _id:0 });
+            const total = await totalSpent();
+            return res.render('index.ejs', {
+                categoriesNames: categoriesNames,
+                totalSpent: total
+            });
+        } catch (err) {
+            console.error(err);
+            return res.render('index.ejs', {
+                categoriesNames: undefined,
+                totalSpent: "Error"
+
+            });
+        }
+    })
+    //categories page route
+    .get('/categories', async (req, res) => {
+        try {
+            const categories = await Category.find( {} ).sort( {createdAt: -1} );
+            const total = await totalSpent();
+            return res.render('categories.ejs', {
+                categories: categories,
+                totalSpent: total
+            });
+        } catch (err) {
+            console.error(err);
+            return res.render('categories.ejs', {
+                categories: undefined,
+                message: "No Data",
+                totalSpent: "Error"
+            });
+        }
+    })
+    //records page route
+    .get('/records', async (req, res) => {
+        try {
+            const records = await Record.find( {} ).sort( {createdAt: -1} );
+            const categoriesNames = await Category.find( {}, { name:1, _id:0 });
+            const total = await totalSpent();
+            return res.render('records.ejs', {
+                records: records,
+                categoriesNames: categoriesNames,
+                totalSpent: total
+            });
+        } catch (err) {
+            console.error(err);
+            return res.render('records.ejs', {
+                records: undefined,
+                message: "No Data",
+                totalSpent: "Error"
+            });
+        }
+    });
+
+export default router;

@@ -4,7 +4,6 @@
 		<%- include('../partials/head'); -%>
     </head>
 	<body>
-		<!-- onload="showTotalSpent();" by ls-->
 		<!-- HEADER -->
 		<%- include('../partials/header'); -%>
 		<!--/HEADER -->
@@ -22,9 +21,13 @@
                                 </div>
                                 <div class="form-floating mb-3">
                                     <select name="category" class="form-select" id="floatingSelect" required>
-                                        <option value="One">One</option>
-                                        <option value="Two">Two</option>
-                                        <option value="Three">Three</option>
+                                        <% if (categoriesNames) {
+                                            categoriesNames.forEach(function(category) { %>
+                                                <option value="<%=category.name%>"><%=category.name%></option>
+                                            <% });
+                                        } else { %>
+                                            <option value="No Categories">No Categories</option>
+                                        <%}%> 
                                     </select>
                                     <label for="floatingSelect">Choose a Category</label>
                                 </div>
@@ -32,10 +35,6 @@
                                     <textarea name="description" class="form-control" id="floatingTextarea" placeholder="Description" required></textarea>
                                     <label for="floatingTextarea">Description</label> 
                                 </div>
-                                <!-- <div class="form-floating mb-3">
-                                    <input name="date" type="datetime-local" class="form-control" id="floatingInputDate" placeholder="Date" required>
-                                    <label for="floatingInputDate">Choose a Date</label>
-                                </div> -->
                                 <div class="d-flex justify-content-around">
                                     <button id="submit" type="submit" class="btn btn-outline-warning btn-lg">
                                         Submit

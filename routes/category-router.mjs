@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { Record } from '../models/record.mjs';
+import { Category } from '../models/category.mjs';
 
 const router = Router();
 
@@ -19,9 +20,9 @@ const totalSpent = async () => {
 }
 
 router
-    //Create Record
-    .post('/create-record', (req, res) => {
-        Record.create({...req.body})
+    //Create Category
+    .post('/create-category', (req, res) => {
+        Category.create({...req.body})
         .then(async data => {
             const total = await totalSpent();
             res.status(201).send({total});
@@ -31,10 +32,10 @@ router
             res.status(400).end();
         });
     })
-    //Update Record
-    .put('/edit-record', async (req, res) => {
+    // //Update Category
+    .put('/edit-category', async (req, res) => {
         try {
-            const editedRecord = await Record.findOneAndUpdate({ _id: req.body.id }, req.body, { new: true });
+            const editedRecord = await Category.findOneAndUpdate({ _id: req.body.id }, req.body, { new: true });
 
             if (!editedRecord) {
             return res.status(400).end()
@@ -44,8 +45,7 @@ router
             res.status(200).json({
                 updatedRecord: {
                     id: editedRecord._id,
-                    money: editedRecord.money,
-                    category: editedRecord.category,
+                    name: editedRecord.name,
                     description: editedRecord.description
                 },
                 total: total
@@ -55,10 +55,10 @@ router
             res.status(400).end()
         }
     })
-    //Delete Record
-    .delete('/delete-record', async (req, res) => {
+    //Delete Category
+    .delete('/delete-category', async (req, res) => {
         try {
-            const deleted = await Record.findOneAndRemove({ _id: req.body.id });
+            const deleted = await Category.findOneAndRemove({ _id: req.body.id });
         
             if (!deleted) {
             return res.status(400).end();

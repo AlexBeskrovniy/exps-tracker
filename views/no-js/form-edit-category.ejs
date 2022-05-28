@@ -30,7 +30,7 @@
                     <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                         <li><a href="/" class="nav-link px-3 text-white text-uppercase">Home</a></li>
                         <li><a href="/categories" class="nav-link px-3 text-white text-uppercase">Categories</a></li>
-                        <li><a href="/all-records" class="nav-link px-3 text-white text-uppercase">All Records</a></li>
+                        <li><a href="/records" class="nav-link px-3 text-white text-uppercase">All Records</a></li>
                     </ul>
         
                     <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3 d-flex justify-content-between">
@@ -47,30 +47,21 @@
 			<div class="container d-flex justify-content-center">
 				<div class="d-flex flex-column col-lg-6 align-items-center text-center my-5 py-5">
                     <div class="form-card card bg-dark mt-3">
-                        <h5 class="card-header text-white text-center">Edit this Record</h5>
+                        <h5 class="card-header text-white text-center">Edit this Category</h5>
                         <div class="card-body">
-                            <form data-edit action="/edit-record-no-js" method="POST">
+                            <form data-category action="/edit-category-no-js" method="POST">
                                 <div class="form-floating mb-3">
-                                    <input name="money" type="number" value="<%=editedRecord.money%>" class="form-control" id="floatingInputNumEdit" placeholder="How much" required>
-                                    <label for="floatingInputNumEdit">How much money was spent?</label>
+                                    <input type="text" name="name" value="<%=editedCategory.name%>" class="form-control" id="floatingInput" placeholder="New Caregory" required>
+                                    <label for="floatingInput">Name</label>
                                 </div>
                                 <div class="form-floating mb-3">
-                                    <select name="category" class="form-select" id="floatingSelectEdit" required>
-                                        <option value="<%=editedRecord.category%>" selected><%=editedRecord.category%></option>>
-                                        <option value="One">One</option>
-                                        <option value="Two">Two</option>
-                                        <option value="Three">Three</option>
-                                    </select>
-                                    <label for="floatingSelectEdit">Choose a Category</label>
+                                    <textarea name="description" class="form-control" id="floatingTextarea" placeholder="Description" required><%=editedCategory.description%></textarea>
+                                    <label for="floatingTextarea">Description</label> 
                                 </div>
-                                <div class="form-floating mb-3">
-                                    <textarea name="description" class="form-control" id="floatingTextareaEdit" placeholder="Description" required><%=editedRecord.description%></textarea>
-                                    <label for="floatingTextareaEdit">Description</label> 
-                                </div>
-                               <input type="hidden" name="id" value="<%=editedRecord._id%>">
+                                <input type="hidden" name="id" value="<%=editedCategory._id%>">
                                 <div class="d-flex justify-content-around">
-                                    <button id="update" type="submit" class="btn btn-outline-warning btn-lg">
-                                        Update
+                                    <button type="submit" class="btn btn-outline-warning btn-lg">
+                                        Submit
                                     </button>
                                     <button type="reset" class="btn btn-outline-warning btn-lg">
                                         Clear

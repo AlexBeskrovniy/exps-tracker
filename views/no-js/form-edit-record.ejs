@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Expenses Tracker</title>
+
+        <!-- Google fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;600&display=swap" rel="stylesheet">
+
+        <!-- Bootstrap CSS-->
+        <link type="text/css" rel="stylesheet" href="../css/bootstrap.min.css"/>
+
+        <!-- Custom CSS-->
+        <link type="text/css" rel="stylesheet" href="../css/custom.css"/>
+    </head>
+	<body>
+		<!-- HEADER -->
+		<header class="p-3 bg-dark text-white">
+            <div class="container">
+                <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                    <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 ms-2 text-white text-decoration-none">
+                        <img src="../img/coin-logo.jpg" alt="Logo" width="50" height="50">
+                    </a>
+        
+                    <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                        <li><a href="/" class="nav-link px-3 text-white text-uppercase">Home</a></li>
+                        <li><a href="/categories" class="nav-link px-3 text-white text-uppercase">Categories</a></li>
+                        <li><a href="/records" class="nav-link px-3 text-white text-uppercase">All Records</a></li>
+                    </ul>
+        
+                    <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3 d-flex justify-content-between">
+                        <label for="totalOutput">Total spent</label>
+                        <input id="totalOutput" value="<%=totalSpent%>" class="form-control form-control-dark" readonly>
+                    </form>
+        
+                </div>
+            </div>
+        </header>
+		<!--/HEADER -->
+		<!-- MAIN -->
+		<main class="main">
+			<div class="container d-flex justify-content-center">
+				<div class="d-flex flex-column col-lg-6 align-items-center text-center my-5 py-5">
+                    <div class="form-card card bg-dark mt-3">
+                        <h5 class="card-header text-white text-center">Edit this Record</h5>
+                        <div class="card-body">
+                            <form data-edit action="/edit-record-no-js" method="POST">
+                                <div class="form-floating mb-3">
+                                    <input name="money" type="number" value="<%=editedRecord.money%>" class="form-control" id="floatingInputNumEdit" placeholder="How much" required>
+                                    <label for="floatingInputNumEdit">How much money was spent?</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <select name="category" class="form-select" id="floatingSelectEdit" required>
+                                        <option value="<%=editedRecord.category%>" selected><%=editedRecord.category%></option>
+                                        <% if (categoriesNames) {
+                                            categoriesNames.forEach(function(category) { %>
+                                                <option value="<%=category.name%>"><%=category.name%></option>
+                                            <% });
+                                        } else { %>
+                                            <option value="No Categories">No Categories</option>
+                                        <%}%> 
+                                    </select>
+                                    <label for="floatingSelectEdit">Choose a Category</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <textarea name="description" class="form-control" id="floatingTextareaEdit" placeholder="Description" required><%=editedRecord.description%></textarea>
+                                    <label for="floatingTextareaEdit">Description</label> 
+                                </div>
+                               <input type="hidden" name="id" value="<%=editedRecord._id%>">
+                                <div class="d-flex justify-content-around">
+                                    <button id="update" type="submit" class="btn btn-outline-warning btn-lg">
+                                        Update
+                                    </button>
+                                    <button type="reset" class="btn btn-outline-warning btn-lg">
+                                        Clear
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+				</div>
+			</div>	
+		</main>
+		<!--/MAIN -->
+		<!-- FOOTER -->
+		<%- include('../partials/footer'); -%>
+		<!--/FOOTER -->
+	</body>
+</html>
