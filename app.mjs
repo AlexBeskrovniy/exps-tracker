@@ -11,20 +11,14 @@ const app = express();
 const HOST = 'localhost';
 const PORT = 3000;
 
-//MongoDB Connection
-mongoose
-	.connect(DB_CONFIG, { useNewUrlParser: true })
-	.then( () => console.log('Mongo has connected.'))
-	.catch(err => console.log(err));
-
-//Setting body-parser
-app.use(express.json());
-app.use(express.urlencoded());
-
 //Setting view engine
 app.set('view engine', 'ejs');
 
 app.set('views', './views');
+
+//Setting body-parser
+app.use(express.json());
+app.use(express.urlencoded());
 
 //Static files
 app.use(express.static('public'));
@@ -35,6 +29,11 @@ app.use(recordsRouter);
 app.use(categoriesRouter);
 app.use(noJsRouter);
 
+//MongoDB Connection
+mongoose
+	.connect(DB_CONFIG, { useNewUrlParser: true })
+	.then( () => console.log('Mongo has connected.'))
+	.catch(err => console.log(err));
 
 app.listen(PORT, () => {
 	console.log(`Server has started on the ${HOST}: ${PORT}`);
