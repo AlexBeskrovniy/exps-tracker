@@ -28,15 +28,18 @@ router
     .get('/categories', async (req, res) => {
         try {
             const categories = await Category.find( {} ).sort( {createdAt: -1} );
+            const categoriesNames = await Category.find( {}, { name:1, _id:0 });
             const total = await totalSpent();
             return res.render('categories.ejs', {
                 categories: categories,
+                categoriesNames: categoriesNames,
                 totalSpent: total
             });
         } catch (err) {
             console.error(err);
             return res.render('categories.ejs', {
                 categories: undefined,
+                categoriesNames: undefined,
                 message: "No Data",
                 totalSpent: "Error"
             });

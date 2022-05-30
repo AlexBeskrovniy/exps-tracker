@@ -18,7 +18,7 @@
 				<div id="record-wrapper" class="d-flex row justify-content-center justify-content-md-between">
 					<% if (records) {
 						records.forEach(function(record) { %>
-					<div class="record-card card bg-dark col-sm-6 col-md-3 my-3 mx-2" id="<%=record._id%>">
+					<div class="record-card card bg-dark col-sm-6 col-md-3 my-3 mx-2" id="<%=record._id%>" data-record data-record-id="<%=record._id%>">
 						<div class="card-body">
 							<ul class="list-group list-group-flush">
 								<li class="list-group-item bg-dark d-flex justify-content-between">
@@ -43,7 +43,7 @@
 						</div>
 						<div class="card-footer d-flex justify-content-around py-3">
 							<a data-edit-button="<%=record._id%>" href="form-edit-record/<%=record._id%>" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#modalFormEditRecord">Edit</a>
-							<a data-delete-button="<%=record._id%>" href="delete-record-no-js/<%=record._id%>" class="btn btn-outline-warning">Delete</a>
+							<a data-delete-button="<%=record._id%>" href="" data-d="delete-record-no-js/<%=record._id%>" class="btn btn-outline-warning">Delete</a>
 						</div>
 					</div>
 					<%	});
@@ -54,9 +54,15 @@
 			</div>	
 		</main>
 		<!--/MAIN -->
+
+		<!--Modal Window Form Create Record-->
+		<%- include('partials/modal-form-new-record'); -%>
+		<!--/Modal Window Form Create Record--->
+
 		<!--Modal Window Form Edit Record-->
 		<%- include('partials/modal-form-edit-record'); -%>
 		<!--/Modal Window Form Edit Record--->
+		
 		<!-- FOOTER -->
 		<%- include('partials/footer'); -%>
 		<!--/FOOTER -->

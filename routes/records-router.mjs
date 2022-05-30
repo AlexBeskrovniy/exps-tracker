@@ -6,33 +6,30 @@ const router = Router();
 
 router
     //Create Record
-    .post('/create-record', (req, res) => {
-        Record.create({...req.body})
-        .then(async data => {
+    .post('/create-record', async (req, res) => {
+        try {
+            const record = await Record.create({...req.body});
             const total = await totalSpent();
             res.status(201).send({total});
-        })
-        .catch(
-            err => { console.error(err);
+        } catch (err) {
+            console.error(err)
             res.status(400).end();
-        });
+        }
     })
     //Update Record
     .put('/edit-record', async (req, res) => {
         try {
             const editedRecord = await Record.findOneAndUpdate({ _id: req.body.id }, req.body, { new: true });
-
+            
             if (!editedRecord) {
-            return res.status(400).end()
+                return res.status(400).end()
             }
 
             const total = await totalSpent();
             res.status(200).json({
                 updatedRecord: {
-                    id: editedRecord._id,
-                    money: editedRecord.money,
-                    category: editedRecord.category,
-                    description: editedRecord.description
+                    ...editedRecord._doc,
+                    id: editedRecord._id
                 },
                 total: total
             });

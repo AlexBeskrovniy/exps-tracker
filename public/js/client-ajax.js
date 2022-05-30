@@ -56,6 +56,7 @@ function showEditFormAndUpdateUnit (form, model, inputs, modalWindow) {
         })
         .then(res => res.json())
         .then(data => {
+            console.log(data);
             const record = document.querySelector(`[id="${data.updatedRecord.id}"]`);
             const elems = inputs.filter(input => input !== 'id');
             elems.map(elem => {
