@@ -19,7 +19,7 @@ router
     //Update Record
     .put('/edit-record', async (req, res) => {
         try {
-            const editedRecord = await Record.findOneAndUpdate({ _id: req.body.id }, req.body, { new: true });
+            const editedRecord = await Record.findOneAndUpdate({ _id: req.body.id }, req.body, { new: true }).populate('category', 'name');
             
             if (!editedRecord) {
                 return res.status(400).end()

@@ -5,20 +5,40 @@ import { Category } from "../../models/category.mjs";
 import { fakeRecords } from "./factories/record-factory.mjs";
 import { fakeCategories } from "./factories/category-factory.mjs";
 
-let records = fakeRecords(30);
-let categories = fakeCategories(5);
-
-const seeder = async () => {
-    await Promise.all(records.map(record => Record.create({...record})));
-    await Promise.all(categories.map(category => Category.create({...category})));
+const seeder = async (array, model) => {
+    await Promise.all(array.map(elem => model.create({...elem})));
 }
+
+const getCategoriesId = async () => {
+    try {
+        let data = await Category.find( {}, { _id: 1 });
+        return data;
+    } catch (err) {
+        console.error(err);
+    }  
+}
+
+/** In this function:
+ * 1 - Opening DB connection
+ * 2 - Creating fake categories
+ * 3 - Getting array of the new categories' ids
+ * 4 - Creating fake records using array of the categories' ids
+ * 5 - Closing DB connection
+ */
 
 const seed = async () => {
     try {
         mongoose.connect(process.env.DB_URL, { useNewUrlParser: true }, () => {
             console.log('Mongo has connected');
-       });
-        await seeder();
+        });
+
+            let categories = fakeCategories(5);
+            await seeder(categories, Category);
+            console.log("Categories created");
+            let arrayOfId = await getCategoriesId();
+            let records = fakeRecords(30, arrayOfId);
+            await seeder(records, Record);
+
         console.log('Database successfully seeded');
         mongoose.connection.close( () => {
             console.log('Mongo has disconnected');

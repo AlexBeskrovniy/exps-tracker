@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { Category } from '../models/category.mjs';
 import { totalSpent } from '../controllers/helpers.mjs';
+import { Record } from '../models/record.mjs';
 
 const router = Router();
 
@@ -43,11 +44,23 @@ router
     //Delete Category
     .delete('/delete-category', async (req, res) => {
         try {
+            let defaultCategory = await Category.findOne({ name: "Other"});
+            
+            !defaultCategory ?
+            defaultCategory = await Category.create({name: "Other", description: "Default category"}) :
+            defaultCategory;
+
             const deleted = await Category.findOneAndRemove({ _id: req.body.id });
-        
+       
             if (!deleted) {
             return res.status(400).end();
             }
+
+            if (deleted.id === defaultCategory.id) {
+                defaultCategory = await Category.create({name: "Other", description: "Default category"});
+            }
+            
+            await Record.updateMany({category: deleted._id}, {$set: {category: defaultCategory._id}});
             
             const total = await totalSpent();
             return res.status(200).json({

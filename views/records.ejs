@@ -18,7 +18,7 @@
 				<div id="record-wrapper" class="d-flex row justify-content-center justify-content-md-between">
 					<% if (records) {
 						records.forEach(function(record) { %>
-					<div class="record-card card bg-dark col-sm-6 col-md-3 my-3 mx-2" id="<%=record._id%>" data-record data-record-id="<%=record._id%>">
+					<div class="record-card card bg-dark col-sm-6 col-md-3 my-3 mx-2" id="<%=record._id%>" data-record-id="<%=record._id%>">
 						<div class="card-body">
 							<ul class="list-group list-group-flush">
 								<li class="list-group-item bg-dark d-flex justify-content-between">
@@ -27,7 +27,7 @@
 								</li>
 								<li class="list-group-item bg-dark d-flex justify-content-between">
 									<span><h5 class="card-title text-white">Category:</h5></span>
-									<span data-record-category class="card-text text-white"><%= record.category %></span>
+									<span data-record-category class="card-text text-white"><%= record.category.name %></span>
 								</li>
 								<li class="list-group-item bg-dark d-flex justify-content-between">
 									<span><h5 class="card-title text-white">Spent:</h5></span>
@@ -48,7 +48,7 @@
 					</div>
 					<%	});
 					} else { %>
-						<h1><%=message%></h1>
+						<h1 class ="text-white"><%=message%></h1>
 					<%}%> 
 				</div>
 			</div>	

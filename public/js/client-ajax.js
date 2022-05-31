@@ -60,6 +60,8 @@ function showEditFormAndUpdateUnit (form, model, inputs, modalWindow) {
             const record = document.querySelector(`[id="${data.updatedRecord.id}"]`);
             const elems = inputs.filter(input => input !== 'id');
             elems.map(elem => {
+                record.querySelector('[data-record-category]') ?
+                record.querySelector('[data-record-category]').innerHTML = data.updatedRecord.category.name : 
                 record.querySelector(`[data-${model}-${elem}]`).innerHTML = data.updatedRecord[elem];
             });
             setTotalSpent(data.total);

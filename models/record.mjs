@@ -8,8 +8,8 @@ const recordSchema = new mongoose.Schema({
         maxlength: 20
     },
     category: {
-        type: String,
-        required: true
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Category',
     },
     description: {
         type: String,
