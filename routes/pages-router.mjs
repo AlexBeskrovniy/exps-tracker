@@ -1,7 +1,8 @@
 import { Router } from 'express';
 import { Record } from '../models/record.mjs';
 import { Category } from '../models/category.mjs';
-import { totalSpent } from '../controllers/helpers.mjs';
+//import { totalSpent } from '../utils/helpers.mjs';
+import { getTotalSpent } from '../utils/spent-handler.mjs';
 
 const router = Router();
 
@@ -10,7 +11,7 @@ router
     .get('/', async (req, res) => {
         try {
             const categoriesNames = await Category.find( {}, { name:1 });
-            const total = await totalSpent();
+            const total = await getTotalSpent();
             return res.render('index.ejs', {
                 categoriesNames: categoriesNames,
                 totalSpent: total
@@ -28,8 +29,8 @@ router
     .get('/categories', async (req, res) => {
         try {
             const categories = await Category.find( {} ).sort( {createdAt: -1} );
-            const categoriesNames = await Category.find( {}, { name:1 });
-            const total = await totalSpent();
+            const categoriesNames = await Category.find( {}, { name: 1 });
+            const total = await getTotalSpent();
             return res.render('categories.ejs', {
                 categories: categories,
                 categoriesNames: categoriesNames,
@@ -57,7 +58,7 @@ router
             //console.log(records);
             const categoriesNames = await Category.find( {}, { name: 1});
             //console.log(categoriesNames);
-            const total = await totalSpent();
+            const total = await getTotalSpent();
             return res.render('records.ejs', {
                 records: records,
                 categoriesNames: categoriesNames,

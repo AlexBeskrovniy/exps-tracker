@@ -1,15 +1,26 @@
 "use strict"
+
 //Helpers
 function setTotalSpent(value) {
     const totalOutput = document.getElementById('totalOutput');
     totalOutput.setAttribute('value', value);
 }
 
+function getTotalSpent() {
+   return fetch('/total', {
+        method: 'GET'
+    })
+    .then(res => res.json())
+    .then(data => {setTotalSpent(data.total);
+                console.log(data.total)
+    })
+    .catch(err => console.error(err))
+}
+
 function createUnit(form, model, modalWindow) {
     form.addEventListener('submit', function(e) {
         e.preventDefault();
         const recordData = new FormData(form);
-
         fetch(`/create-${model}`, {
             headers: {
                 'Content-Type': 'application/json'
@@ -19,10 +30,12 @@ function createUnit(form, model, modalWindow) {
         })
         .then(res => res.json())
         .then(data => {
-            setTotalSpent(data.total);
+            console.log(data);
+            //setTotalSpent(data.total);
             bootstrap.Modal.getOrCreateInstance(modalWindow).hide();
         })
         .catch(err => console.error(err))
+        getTotalSpent();
     });
 }
 

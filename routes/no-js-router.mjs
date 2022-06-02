@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { Record } from '../models/record.mjs';
 import { Category } from '../models/category.mjs';
-import { totalSpent } from '../controllers/helpers.mjs';
+//import { totalSpent } from '../utils/helpers.mjs';
 
 const router = Router();
 

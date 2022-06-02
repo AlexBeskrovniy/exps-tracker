@@ -6,6 +6,7 @@ import pagesRouter from './routes/pages-router.mjs';
 import categoriesRouter from './routes/category-router.mjs';
 import recordsRouter from './routes/records-router.mjs';
 import noJsRouter from './routes/no-js-router.mjs';
+import totalRouter from './routes/totalspent-route.mjs';
 
 const app = express();
 
@@ -16,7 +17,7 @@ app.set('views', './views');
 
 //Setting body-parser
 app.use(express.json());
-app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: true }));
 
 //Static files
 app.use(express.static('public'));
@@ -26,6 +27,7 @@ app.use(pagesRouter);
 app.use(recordsRouter);
 app.use(categoriesRouter);
 app.use(noJsRouter);
+app.use(totalRouter);
 
 //MongoDB Connection
 mongoose

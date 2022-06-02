@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { Record } from '../models/record.mjs';
-import { totalSpent } from '../controllers/helpers.mjs';
+import { getTotalSpent } from '../utils/spent-handler.mjs';
+//import { totalSpent } from '../utils/helpers.mjs';
 
 const router = Router();
 
@@ -8,9 +9,10 @@ router
     //Create Record
     .post('/create-record', async (req, res) => {
         try {
-            const record = await Record.create({...req.body});
-            const total = await totalSpent();
-            res.status(201).send({total});
+            const record = new Record({...req.body});
+            record.save();
+            await record.populate('category', 'name');
+            res.status(201).json({...record._doc});
         } catch (err) {
             console.error(err)
             res.status(400).end();
@@ -25,12 +27,9 @@ router
                 return res.status(400).end()
             }
 
-            const total = await totalSpent();
+            const total = await getTotalSpent();
             res.status(200).json({
-                updatedRecord: {
-                    ...editedRecord._doc,
-                    id: editedRecord._id
-                },
+                ...editedRecord._doc,
                 total: total
             });
         } catch (err) {
@@ -47,7 +46,7 @@ router
             return res.status(400).end();
             }
             
-            const total = await totalSpent();
+            const total = await getTotalSpent();
             return res.status(200).json({
                 id: deleted._id,
                 total: total

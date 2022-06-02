@@ -1,22 +1,22 @@
 import { Router } from 'express';
 import { Category } from '../models/category.mjs';
-import { totalSpent } from '../controllers/helpers.mjs';
 import { Record } from '../models/record.mjs';
+import { getTotalSpent } from '../utils/spent-handler.mjs';
+//import { totalSpent } from '../utils/helpers.mjs';
 
 const router = Router();
 
 router
     //Create Category
     .post('/create-category', (req, res) => {
-        Category.create({...req.body})
-        .then(async data => {
-            const total = await totalSpent();
-            res.status(201).send({total});
-        })
-        .catch(
-            err => { console.error(err);
+        try {
+            const category = new Category({...req.body});
+            category.save();
+            res.status(201).json({...category._doc});
+        } catch (err) {
+            console.error(err)
             res.status(400).end();
-        });
+        }
     })
     // //Update Category
     .put('/edit-category', async (req, res) => {
@@ -27,13 +27,9 @@ router
             return res.status(400).end()
             }
 
-            const total = await totalSpent();
+            const total = await getTotalSpent();
             res.status(200).json({
-                updatedRecord: {
-                    id: editedRecord._id,
-                    name: editedRecord.name,
-                    description: editedRecord.description
-                },
+                ...editedRecord._doc,
                 total: total
             });
         } catch (err) {
@@ -62,7 +58,7 @@ router
             
             await Record.updateMany({category: deleted._id}, {$set: {category: defaultCategory._id}});
             
-            const total = await totalSpent();
+            const total = await getTotalSpent();
             return res.status(200).json({
                 id: deleted._id,
                 total: total

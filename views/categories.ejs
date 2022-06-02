@@ -19,7 +19,7 @@
 				<div id="category-wrapper">
 					<% if (categories) {
 						categories.forEach(function(category) { %>
-					<div class="d-flex justify-content-center" id="<%=category._id%>">
+					<div data-category-div="<%=category._id%>" class="d-flex justify-content-center">
 						<div class="card bg-dark col-10 mb-3">
 							<div class="card-header text-white">
 								<h3 data-category-name class="card-title text-white">
@@ -44,6 +44,26 @@
 					<%}%> 
 					
 				</div>
+
+				<template id="category-temp">
+					<div data-category-div class="d-flex justify-content-center">
+						<div class="card bg-dark col-10 mb-3">
+							<div class="card-header text-white">
+								<h3 data-category-name class="card-title text-white">
+								</h3>
+							</div>
+							<div class="card-body">
+								<h5 class="card-title text-white">Description</h5>
+								<p data-category-description class="card-text text-white">
+								</p>
+							</div>
+							<div class="card-footer d-flex justify-content-end">
+								<a data-edit-button href="#" class="btn btn-outline-warning me-2" data-bs-toggle="modal" data-bs-target="#modalFormEditCategory">Edit</a>
+								<a data-delete-button href="#" class="btn btn-outline-warning me-2">Delete</a>
+							  </div>
+						</div>
+					</div>
+				</template>
 
 			</div>	
 		</main>

@@ -18,7 +18,7 @@ const getCategoriesId = async () => {
     }  
 }
 
-/** In this function:
+/** In seed function:
  * 1 - Opening DB connection
  * 2 - Creating fake categories
  * 3 - Getting array of the new categories' ids

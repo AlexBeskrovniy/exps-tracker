@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { getTotalSpent, setTotalSpent } from '../utils/spent-handler.mjs';
 
 const recordSchema = new mongoose.Schema({
     money: {
@@ -17,5 +18,9 @@ const recordSchema = new mongoose.Schema({
         maxlength: 255
     }
 }, { timestamps: true });
+
+recordSchema.post(['save', 'findOneAndUpdate', 'findOneAndRemove'],  async () => {
+    await setTotalSpent();
+});
 
 export const Record = mongoose.model('Record', recordSchema, 'records');
