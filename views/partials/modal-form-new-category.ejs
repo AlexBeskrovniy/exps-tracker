@@ -1,11 +1,11 @@
-<div class="modal fade" id="modalFormNewCategory" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="modalFormNewCategory" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered">
 		<div class="modal-content bg-dark">
 			<div class="modal-body">
 				<div class="form-card card bg-dark mt-3">
 					<h5 class="card-header text-white text-center">Create a new Category</h5>
 					<div class="card-body">
-						<form id="new-category" onsubmit="addRecord();">
+						<form data-category method="POST">
 							<div class="form-floating mb-3">
 								<input type="text" name="name" class="form-control" id="floatingInput" placeholder="New Caregory" required>
 								<label for="floatingInput">Name</label>

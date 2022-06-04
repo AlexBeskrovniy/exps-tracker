@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<%- include('../partials/head'); -%>
+    </head>
+	<body>
+		<!-- HEADER -->
+		<%- include('../partials/header'); -%>
+		<!--/HEADER -->
+		<!-- MAIN -->
+		<main class="main">
+			<div class="container d-flex justify-content-center">
+				<div class="d-flex flex-column col-lg-6 align-items-center text-center my-5 py-5">
+                    <div class="form-card card bg-dark mt-3">
+                        <h5 class="card-header text-white text-center">Create a new Record</h5>
+                        <div class="card-body">
+                            <form data-record action="create-record-no-js" method="POST">
+                                <div class="form-floating mb-3">
+                                    <input name="money" type="number" class="form-control" id="floatingInputNum" placeholder="How much" required>
+                                    <label for="floatingInputNum">How much money was spent?</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <select name="category" class="form-select" id="floatingSelect" required>
+                                        <% if (categoriesNames) {
+                                            categoriesNames.forEach(function(category) { %>
+                                                <option value="<%=category.name%>"><%=category.name%></option>
+                                            <% });
+                                        } else { %>
+                                            <option value="No Categories">No Categories</option>
+                                        <%}%> 
+                                    </select>
+                                    <label for="floatingSelect">Choose a Category</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <textarea name="description" class="form-control" id="floatingTextarea" placeholder="Description" required></textarea>
+                                    <label for="floatingTextarea">Description</label> 
+                                </div>
+                                <div class="d-flex justify-content-around">
+                                    <button id="submit" type="submit" class="btn btn-outline-warning btn-lg">
+                                        Submit
+                                    </button>
+                                    <button type="reset" class="btn btn-outline-warning btn-lg">
+                                        Clear
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+				</div>
+			</div>	
+		</main>
+		<!--/MAIN -->
+		<!-- FOOTER -->
+		<%- include('../partials/footer'); -%>
+		<!--/FOOTER -->
+	</body>
+</html>

@@ -12,9 +12,13 @@
 							</div>
 							<div class="form-floating mb-3">
 								<select name="category" class="form-select" id="floatingSelect" required>
-									<option value="One">One</option>
-									<option value="Two">Two</option>
-									<option value="Three">Three</option>
+									<% if (categoriesNames) {
+										categoriesNames.forEach(function(category) { %>
+											<option value="<%=category.id%>"><%=category.name%></option>
+										<% });
+									} else { %>
+										<option value="">No Categories</option>
+									<%}%> 
 								</select>
 								<label for="floatingSelect">Choose a Category</label>
 							</div>

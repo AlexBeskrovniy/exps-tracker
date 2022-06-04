@@ -15,49 +15,61 @@
 					<h2 class="page-title ms-2 mb-0">All Records</h2>
 				</div>
 
-				<div id="record-wrap" class="d-flex row justify-content-center justify-content-md-between">
+				<div id="record-wrapper" class="d-flex row justify-content-center justify-content-xxl-start">
+					<div id="temp-wrapper" class="d-flex row justify-content-center justify-content-xxl-start">
 					<% if (records) {
 						records.forEach(function(record) { %>
-					<div class="record-card card bg-dark col-sm-6 col-md-3 my-3 mx-2" id="<%= record._id %>">
+					<div data-record-div="<%=record._id%>" class="record-card card bg-dark col-sm-6 col-md-3 my-3 mx-3">
 						<div class="card-body">
 							<ul class="list-group list-group-flush">
 								<li class="list-group-item bg-dark d-flex justify-content-between">
 									<span><h5 class="card-title text-white">Date: </h5></span>
-									<span id="record-date" class="card-text text-white"><%= new Date(record.createdAt).toDateString(); %></span>
+									<span data-record-date class="card-text text-white"><%=new Date(record.createdAt).toDateString();%></span>
 								</li>
 								<li class="list-group-item bg-dark d-flex justify-content-between">
 									<span><h5 class="card-title text-white">Category:</h5></span>
-									<span name="record-category" id="record-category" class="card-text text-white"><%= record.category %></span>
+									<span data-record-category class="card-text text-white"><%=record.category.name%></span>
 								</li>
 								<li class="list-group-item bg-dark d-flex justify-content-between">
 									<span><h5 class="card-title text-white">Spent:</h5></span>
-									<span name="record-spent" id="record-spent" class="spent card-text fs-4"><%= record.money %></span>
+									<span data-record-money class="spent card-text fs-4"><%=record.money%></span>
 								</li>
 								<li class="list-group-item bg-dark">
 									<h5 class="card-title text-white">Description</h5>
-									<p name="record-description" id="record-description" class="card-text text-white">
-										<%= record.description %>
+									<p data-record-description class="card-text text-white">
+										<%=record.description%>
 									</p>
 								</li>
 							</ul>
 						</div>
 						<div class="card-footer d-flex justify-content-around py-3">
-							<a id="<%=record._id%>" data-edit-button href="#" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#modalFormEditRecord">Edit</a>
-							<form data-delete>
-								<input type="hidden" name="id" value="<%= record._id %>">
-								<button id="delete" type="submit" class="btn btn-outline-warning">Delete</button>
-							</form>
+							<a data-edit-button="<%=record._id%>" href="form-edit-record/<%=record._id%>" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#modalFormEditRecord">Edit</a>
+							<a data-delete-button="<%=record._id%>" href="delete-record-no-js/<%=record._id%>" class="btn btn-outline-warning">Delete</a>
 						</div>
 					</div>
 					<%	});
-					} %> 
+					} else { %>
+						<h1 class ="text-white"><%=message%></h1>
+					<%}%> 
+					</div>
 				</div>
+
 			</div>	
 		</main>
 		<!--/MAIN -->
+
+		<!--New Record Template-->
+		<%- include('partials/templates/record-template'); -%>
+		<!--/New Record Template-->
+
+		<!--Modal Window Form Create Record-->
+		<%- include('partials/modal-form-new-record'); -%>
+		<!--/Modal Window Form Create Record--->
+
 		<!--Modal Window Form Edit Record-->
 		<%- include('partials/modal-form-edit-record'); -%>
 		<!--/Modal Window Form Edit Record--->
+		
 		<!-- FOOTER -->
 		<%- include('partials/footer'); -%>
 		<!--/FOOTER -->

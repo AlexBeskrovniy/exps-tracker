@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<%- include('../partials/head'); -%>
+    </head>
+	<body>
+		<!-- HEADER -->
+		<%- include('../partials/header'); -%>
+		<!--/HEADER -->
+		<!-- MAIN -->
+		<main class="main">
+			<div class="container d-flex justify-content-center">
+				<div class="d-flex flex-column col-lg-6 align-items-center text-center my-5 py-5">
+                    <div class="form-card card bg-dark mt-3">
+                        <h5 class="card-header text-white text-center">Create a new Category</h5>
+                        <div class="card-body">
+                            <form data-category action="/create-category-no-js" method="POST">
+                                <div class="form-floating mb-3">
+                                    <input type="text" name="name" class="form-control" id="floatingInput" placeholder="New Caregory" required>
+                                    <label for="floatingInput">Name</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <textarea name="description" class="form-control" id="floatingTextarea" placeholder="Description" required></textarea>
+                                    <label for="floatingTextarea">Description</label> 
+                                </div>
+                                <div class="d-flex justify-content-around">
+                                    <button type="submit" class="btn btn-outline-warning btn-lg">
+                                        Submit
+                                    </button>
+                                    <button type="reset" class="btn btn-outline-warning btn-lg">
+                                        Clear
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+				</div>
+			</div>	
+		</main>
+		<!--/MAIN -->
+		<!-- FOOTER -->
+		<%- include('../partials/footer'); -%>
+		<!--/FOOTER -->
+	</body>
+</html>

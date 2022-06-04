@@ -1,4 +1,4 @@
-<header class="p-3 bg-dark text-white">
+<header class="p-3 bg-dark text-white fixed-top">
 	<div class="container">
 		<div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
 			<a href="/" class="d-flex align-items-center mb-2 mb-lg-0 ms-2 text-white text-decoration-none">
@@ -8,14 +8,17 @@
 			<ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
 				<li><a href="/" class="nav-link px-3 text-white text-uppercase">Home</a></li>
 				<li><a href="/categories" class="nav-link px-3 text-white text-uppercase">Categories</a></li>
-				<li><a href="/all-records" class="nav-link px-3 text-white text-uppercase">All Records</a></li>
+				<li><a href="/records" class="nav-link px-3 text-white text-uppercase">All Records</a></li>
 			</ul>
 
-			<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3 d-flex justify-content-between">
-				<label for="totalOutput">Total spent</label>
-				<input id="totalOutput" value="<%= total %>" class="form-control form-control-dark" readonly>
-			</form>
+			<div class="d-flex align-items-center justify-content-around mx-3">
+				<h3 class="text-white text-uppercase px-3 py-3 my-0">Total:</h3>
+				<span id="totalOutput" class="spent fs-1 px-3"></span>
+			</div>
 
+			<a href="/form-create-record" class="btn btn-outline-warning btn-lg" data-bs-toggle="modal" data-bs-target="#modalFormNewRecord">
+				Create Record
+			</a>
 		</div>
 	</div>
 </header>
