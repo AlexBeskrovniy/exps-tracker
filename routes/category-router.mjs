@@ -2,7 +2,6 @@ import { Router } from 'express';
 import { Category } from '../models/category.mjs';
 import { Record } from '../models/record.mjs';
 import { getTotalSpent } from '../utils/spent-handler.mjs';
-//import { totalSpent } from '../utils/helpers.mjs';
 
 const router = Router();
 

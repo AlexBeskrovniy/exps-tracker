@@ -1,8 +1,6 @@
 import { Router } from 'express';
 import { Record } from '../models/record.mjs';
 import { Category } from '../models/category.mjs';
-//import { totalSpent } from '../utils/helpers.mjs';
-import { getTotalSpent } from '../utils/spent-handler.mjs';
 
 const router = Router();
 
@@ -11,17 +9,13 @@ router
     .get('/', async (req, res) => {
         try {
             const categoriesNames = await Category.find( {}, { name:1 });
-            const total = await getTotalSpent();
             return res.render('index.ejs', {
-                categoriesNames: categoriesNames,
-                totalSpent: total
+                categoriesNames: categoriesNames
             });
         } catch (err) {
             console.error(err);
             return res.render('index.ejs', {
                 categoriesNames: undefined,
-                totalSpent: "Error"
-
             });
         }
     })
@@ -30,19 +24,16 @@ router
         try {
             const categories = await Category.find( {} ).sort( {createdAt: -1} );
             const categoriesNames = await Category.find( {}, { name: 1 });
-            const total = await getTotalSpent();
             return res.render('categories.ejs', {
                 categories: categories,
-                categoriesNames: categoriesNames,
-                totalSpent: total
+                categoriesNames: categoriesNames
             });
         } catch (err) {
             console.error(err);
             return res.render('categories.ejs', {
                 categories: undefined,
                 categoriesNames: undefined,
-                message: "No Data",
-                totalSpent: "Error"
+                message: "No Data"
             });
         }
     })
@@ -50,19 +41,10 @@ router
     .get('/records', async (req, res) => {
         try {
             const records = await Record.find( {} ).sort( {createdAt: -1} ).populate('category', 'name');
-            records.map(record => {
-                !record.category ?
-                record.category = { name: "Category was deleted" }:
-                record.category;
-            });
-            //console.log(records);
             const categoriesNames = await Category.find( {}, { name: 1});
-            //console.log(categoriesNames);
-            const total = await getTotalSpent();
             return res.render('records.ejs', {
                 records: records,
                 categoriesNames: categoriesNames,
-                totalSpent: total,
                 message: "No Data"
             });
         } catch (err) {
@@ -70,8 +52,7 @@ router
             return res.render('records.ejs', {
                 records: undefined,
                 categoriesNames: undefined,
-                message: "No Data",
-                totalSpent: "Error"
+                message: "No Data"
             });
         }
     });

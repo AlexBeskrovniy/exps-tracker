@@ -1,7 +1,6 @@
 import { Router } from 'express';
 import { Record } from '../models/record.mjs';
 import { getTotalSpent } from '../utils/spent-handler.mjs';
-//import { totalSpent } from '../utils/helpers.mjs';
 
 const router = Router();
 
@@ -12,7 +11,11 @@ router
             const record = new Record({...req.body});
             record.save();
             await record.populate('category', 'name');
-            res.status(201).json({...record._doc});
+            const total = await getTotalSpent();
+            res.status(201).json({
+                ...record._doc,
+                total: total
+            });
         } catch (err) {
             console.error(err)
             res.status(400).end();

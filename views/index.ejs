@@ -11,6 +11,7 @@
 		<main class="main">
 			<div class="container d-flex justify-content-center">
 				<div class="d-flex flex-column col-lg-6 align-items-center text-center my-5 py-5">
+					<div id="temp-wrapper"></div>
 					<h2 class="page-title">
 						Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 						Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -19,9 +20,19 @@
 			</div>	
 		</main>
 		<!--/MAIN -->
+
+		<!--New Record Template-->
+		<%- include('partials/templates/record-template'); -%>
+		<!--/New Record Template-->
+
 		<!--Modal Window Form Create Record-->
 		<%- include('partials/modal-form-new-record'); -%>
 		<!--/Modal Window Form Create Record--->
+
+		<!--Modal Window Form Edit Record-->
+		<%- include('partials/modal-form-edit-record'); -%>
+		<!--/Modal Window Form Edit Record--->
+
 		<!-- FOOTER -->
 		<%- include('partials/footer'); -%>
 		<!--/FOOTER -->
