@@ -6,7 +6,7 @@ import pagesRouter from './routes/pages-router.mjs';
 import categoriesRouter from './routes/category-router.mjs';
 import recordsRouter from './routes/records-router.mjs';
 import noJsRouter from './routes/no-js-router.mjs';
-import totalRouter from './routes/totalspent-route.mjs';
+import totalRouter from './routes/totalspent-router.mjs';
 
 const app = express();
 

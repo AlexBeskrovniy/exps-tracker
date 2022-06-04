@@ -5,6 +5,32 @@ export const setTotalSpentToClient = (value) => {
     totalOutput.innerHTML = value;
 }
 
+export const setStatsDataToClient = (data) => {
+    const day = document.querySelector('[data-spent-day]');
+    const week = document.querySelector('[data-spent-week]');
+    const mount = document.querySelector('[data-spent-mount]');
+    const year = document.querySelector('[data-spent-year]');
+
+    let {lastDaySpents, lastWeekSpents, lastMountSpents, lastYearSpents} = data;
+
+    day.textContent = lastDaySpents;
+    week.textContent = lastWeekSpents;
+    mount.textContent = lastMountSpents;
+    year.textContent = lastYearSpents;
+}
+
+export const getStatsFromServer = async () => {
+    try {
+        const res = await fetch('/stats', {
+            method: 'GET'
+        });
+        const data = await res.json();
+        setStatsDataToClient(data);
+    } catch (err) {
+        return console.error(err);
+    }
+}
+
 export const getTotalSpentFromServer = async () => {
     try {
         const res = await fetch('/total', {

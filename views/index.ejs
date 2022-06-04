@@ -10,12 +10,26 @@
 		<!-- MAIN -->
 		<main class="main">
 			<div class="container d-flex justify-content-center">
-				<div class="d-flex flex-column col-lg-6 align-items-center text-center my-5 py-5">
+				<div class="d-flex flex-column col-lg-6 align-items-center my-5 py-5">
 					<div id="temp-wrapper"></div>
-					<h2 class="page-title">
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-					</h2>
+					<ul class="list-unstyled">
+						<li class="d-flex align-items-center justify-content-between m-3">
+							<h3 class="text-white text-uppercase mx-3 my-0">Last 24 hours:</h3>
+							<span data-spent-day class="spent fs-1"></span>
+						</li>
+						<li class="d-flex align-items-center justify-content-between m-3">
+							<h3 class="text-white text-uppercase mx-3 my-0">Last 7 days:</h3>
+							<span data-spent-week class="spent fs-1"></span>
+						</li>
+						<li class="d-flex align-items-center justify-content-between m-3">
+							<h3 class="text-white text-uppercase mx-3 my-0">Last 30 days:</h3>
+							<span data-spent-mount class="spent fs-1"></span>
+						</li>
+						<li class="d-flex align-items-center justify-content-between m-3">
+							<h3 class="text-white text-uppercase mx-3 my-0">Last year:</h3>
+							<span data-spent-year class="spent fs-1"></span>
+						</li>
+					</ul>
 				</div>
 			</div>	
 		</main>
@@ -36,5 +50,7 @@
 		<!-- FOOTER -->
 		<%- include('partials/footer'); -%>
 		<!--/FOOTER -->
+
+		<script type="module" src="js/stats.js"></script>
 	</body>
 </html>

@@ -1,6 +1,6 @@
 "use strict"
 
-import { setFetchParams, getTotalSpentFromServer } from "./utils.js";
+import { setFetchParams, getTotalSpentFromServer, getStatsFromServer } from "./utils.js";
 
 export const recordForm = document.querySelector('[data-record]');
 export const wrapper = document.querySelector('#temp-wrapper');
@@ -33,6 +33,7 @@ export const createRecord = () => {
 
             bootstrap.Modal.getOrCreateInstance(modalCreate).hide();
             getTotalSpentFromServer();
+            getStatsFromServer();
         })
         .catch(e => console.error(e))
     });
@@ -75,6 +76,7 @@ export const updateRecord = () => {
 
             bootstrap.Modal.getOrCreateInstance(modalEdit).hide();
             getTotalSpentFromServer();
+            getStatsFromServer();
         }).catch(err => console.error(err))
     });
 }
@@ -94,6 +96,7 @@ export const deleteRecord = () => {
                 const deletedCard = document.querySelector(`[data-record-div="${data.id}"]`);
                 deletedCard.remove();
                 getTotalSpentFromServer();
+                getStatsFromServer();
             }).catch(e => console.error(e));
         }
     });
