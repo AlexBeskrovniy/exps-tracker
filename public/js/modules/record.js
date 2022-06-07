@@ -102,10 +102,10 @@ export const deleteRecord = () => {
     });
 }
 
-export const record = {
-    recordForm: recordForm,
-    tempWrapper: wrapper,
-    create: createRecord,
-    update: updateRecord,
-    delete: deleteRecord
-};
+// export const record = {
+//     recordForm: recordForm,
+//     tempWrapper: wrapper,
+//     create: createRecord,
+//     update: updateRecord,
+//     delete: deleteRecord
+// };

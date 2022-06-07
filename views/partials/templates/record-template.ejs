@@ -1,29 +1,38 @@
 <template id="record-temp">
-    <div data-record-div class="record-card card bg-dark col-sm-6 col-md-3 my-3 mx-3">
-        <div class="card-body">
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item bg-dark d-flex justify-content-between">
-                    <span><h5 class="card-title text-white">Date: </h5></span>
-                    <span data-record-date class="card-text text-white"></span>
-                </li>
-                <li class="list-group-item bg-dark d-flex justify-content-between">
-                    <span><h5 class="card-title text-white">Category:</h5></span>
-                    <span data-record-category class="card-text text-white"></span>
-                </li>
-                <li class="list-group-item bg-dark d-flex justify-content-between">
-                    <span><h5 class="card-title text-white">Spent:</h5></span>
-                    <span data-record-money class="spent card-text fs-4"></span>
-                </li>
-                <li class="list-group-item bg-dark">
-                    <h5 class="card-title text-white">Description</h5>
-                    <p data-record-description class="card-text text-white">
-                    </p>
-                </li>
-            </ul>
-        </div>
-        <div class="card-footer d-flex justify-content-around py-3">
-            <a data-edit-button class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#modalFormEditRecord">Edit</a>
-            <a data-delete-button class="btn btn-outline-warning">Delete</a>
-        </div>
+<!-- Google fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;600&display=swap" rel="stylesheet">
+
+<!-- Bootstrap CSS-->
+<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css"/>
+
+    <div data-record-div class="card-body row d-flex justify-content-between">
+        <span class="col-2 fs-5 text-white">
+            <slot name="date"></slot>
+        </span>
+        <span class="col-2 fs-5 text-white">
+            <slot name="category-name"></slot>
+        </span>
+        <span class="col-2 fs-3" style="color: #FFC107;">
+            <slot name="spent"></slot>
+        </span>
+        <span class="col-5 fs-5 text-white">
+            <slot name="description"></slot>
+        </span>
+        <span class="col-1 fs-5 text-white">
+            <a data-edit-button href="#" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#modalFormEditRecord">
+                Edit
+            </a>
+        </span>
     </div>
+</template>
+
+<template id="record-slots">
+    <span slot="id"></span>
+    <span slot="date"></span>
+    <span slot="category-id"></span>
+    <span slot="category-name"></span>
+    <span slot="spent"></span>
+	<span slot="description"></span>
 </template>

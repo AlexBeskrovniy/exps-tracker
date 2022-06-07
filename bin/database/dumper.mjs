@@ -6,7 +6,9 @@ import { Total } from '../../models/total.mjs';
 
 export const dump = async ([...models]) => {
     try {
-        mongoose.connect(process.env.DB_URL, { useNewUrlParser: true }, () => {
+        mongoose.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_CLUSTER}.pqimp.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`, {
+            useNewUrlParser: true
+        }, () => {
             console.log('Mongo has connected');
        });
         await Promise.all(models.map(model => model.deleteMany( {} )));

@@ -6,17 +6,35 @@ export const setTotalSpentToClient = (value) => {
 }
 
 export const setStatsDataToClient = (data) => {
-    const day = document.querySelector('[data-spent-day]');
-    const week = document.querySelector('[data-spent-week]');
-    const mount = document.querySelector('[data-spent-mount]');
-    const year = document.querySelector('[data-spent-year]');
+    const statFields = document.querySelectorAll('[data-spent]');
+    const dataKeys = Object.keys(data);
+    Array.from(statFields).forEach(field => {
+        dataKeys.forEach(key => {
+            if (field.dataset.spent === key) {
+                field.textContent = data[key];
+            }
+        });
+    });
 
-    let {lastDaySpents, lastWeekSpents, lastMountSpents, lastYearSpents} = data;
+    // const map = [
+    //     ['day', 'lastDaySpents'],
+    // ]
 
-    day.textContent = lastDaySpents;
-    week.textContent = lastWeekSpents;
-    mount.textContent = lastMountSpents;
-    year.textContent = lastYearSpents;
+    // map.map(([ selector, dbSelector ]) => {
+    //     document.querySelector(`data-spent-${selector}`).textContent = data[dbSelector];
+    // })
+    
+    // const day = document.querySelector('[data-spent-day]');
+    // const week = document.querySelector('[data-spent-week]');
+    // const mount = document.querySelector('[data-spent-mount]');
+    // const year = document.querySelector('[data-spent-year]');
+
+    // let {lastDaySpents, lastWeekSpents, lastMountSpents, lastYearSpents} = data;
+
+    // day.textContent = lastDaySpents;
+    // week.textContent = lastWeekSpents;
+    // mount.textContent = lastMountSpents;
+    // year.textContent = lastYearSpents;
 }
 
 export const getStatsFromServer = async () => {

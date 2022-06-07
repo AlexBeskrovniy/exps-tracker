@@ -1,5 +1,4 @@
 import { Router } from 'express';
-import { Total } from '../models/total.mjs';
 import { getStatistics, getTotalSpent } from '../utils/spent-handler.mjs';
 
 const router = Router();

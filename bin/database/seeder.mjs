@@ -28,7 +28,9 @@ const getCategoriesId = async () => {
 
 const seed = async () => {
     try {
-        mongoose.connect(process.env.DB_URL, { useNewUrlParser: true }, () => {
+        mongoose.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_CLUSTER}.pqimp.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`, {
+            useNewUrlParser: true
+        }, () => {
             console.log('Mongo has connected');
         });
 

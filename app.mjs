@@ -31,7 +31,9 @@ app.use(totalRouter);
 
 //MongoDB Connection
 mongoose
-	.connect(process.env.DB_URL, { useNewUrlParser: true })
+	.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_CLUSTER}.pqimp.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`, {
+		useNewUrlParser: true
+	})
 	.then( () => console.log('Mongo has connected.'))
 	.catch(err => console.log(err));
 

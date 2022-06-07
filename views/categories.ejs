@@ -14,38 +14,19 @@
 				<div class="d-flex flex-wrap align-items-center justify-content-between py-5">
 					<h2 class="page-title ms-2 mb-0">List of the Categories</h2>
 
-					<div id="temp-wrapper"></div>
-
 					<a href="/form-create-category" class="btn btn-outline-warning btn-lg me-2" data-bs-toggle="modal" data-bs-target="#modalFormNewCategory">Create Category</a>
 				</div>
 
-				<div id="category-wrapper">
-					<% if (categories) {
-						categories.forEach(function(category) { %>
-					<div data-category-div="<%=category._id%>" class="d-flex justify-content-center">
-						<div class="card bg-dark col-10 mb-3">
-							<div class="card-header text-white">
-								<h3 data-category-name class="card-title text-white">
-									<%=category.name%>
-								</h3>
-							</div>
-							<div class="card-body">
-								<h5 class="card-title text-white">Description</h5>
-								<p data-category-description class="card-text text-white">
-									<%=category.description%>
-								</p>
-							</div>
-							<div class="card-footer d-flex justify-content-end">
-								<a data-edit-button="<%=category._id%>" href="form-edit-category/<%=category._id%>" class="btn btn-outline-warning me-2" data-bs-toggle="modal" data-bs-target="#modalFormEditCategory">Edit</a>
-								<a data-delete-button="<%=category._id%>" href="delete-category-no-js/<%=category._id%>" class="btn btn-outline-warning me-2">Delete</a>
-							  </div>
-						</div>
-					</div>
-					<% });
-					} else { %>
-						<h1><%=message%></h1>
-					<%}%> 
-					
+				<div id="category-wrapper" class="d-flex row justify-content-center justify-content-xxl-start">
+					<%if (categories) {
+						categories.forEach(category => { %>
+							<x-category-card>
+								<span slot="id"><%-category._id %></span>
+								<span slot="name"><%-category.name %></span>
+								<span slot="description"><%-category.description %></span>
+							</x-category-card>
+						<%});
+					}%>
 				</div>
 			</div>	
 		</main>
@@ -62,10 +43,6 @@
 		<!--Modal Window Form Create Record-->
 		<%- include('partials/modal-form-new-record'); -%>
 		<!--/Modal Window Form Create Record--->
-
-		<!--Modal Window Form Edit Record-->
-		<%- include('partials/modal-form-edit-record'); -%>
-		<!--/Modal Window Form Edit Record--->
 
 		<!--Modal Window Form Create Category-->
 		<%- include('partials/modal-form-new-category'); -%>

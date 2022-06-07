@@ -7,8 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.mjs",
     "dev": "nodemon app.mjs",
-    "db-seed": "node dev/database/seeder.mjs",
-    "db-dump": "node dev/database/dumper.mjs"
+    "db-seed": "node bin/database/seeder.mjs",
+    "db-dump": "node bin/database/dumper.mjs"
   },
   "repository": {
     "type": "git",

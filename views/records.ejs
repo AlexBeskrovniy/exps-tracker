@@ -15,43 +15,32 @@
 					<h2 class="page-title ms-2 mb-0">All Records</h2>
 				</div>
 
-				<div id="record-wrapper" class="d-flex row justify-content-center justify-content-xxl-start">
-					<div id="temp-wrapper" class="d-flex row justify-content-center justify-content-xxl-start">
-					<% if (records) {
-						records.forEach(function(record) { %>
-					<div data-record-div="<%=record._id%>" class="record-card card bg-dark col-sm-6 col-md-3 my-3 mx-3">
-						<div class="card-body">
-							<ul class="list-group list-group-flush">
-								<li class="list-group-item bg-dark d-flex justify-content-between">
-									<span><h5 class="card-title text-white">Date: </h5></span>
-									<span data-record-date class="card-text text-white"><%=new Date(record.createdAt).toDateString();%></span>
-								</li>
-								<li class="list-group-item bg-dark d-flex justify-content-between">
-									<span><h5 class="card-title text-white">Category:</h5></span>
-									<span data-record-category class="card-text text-white"><%=record.category.name%></span>
-								</li>
-								<li class="list-group-item bg-dark d-flex justify-content-between">
-									<span><h5 class="card-title text-white">Spent:</h5></span>
-									<span data-record-money class="spent card-text fs-4"><%=record.money%></span>
-								</li>
-								<li class="list-group-item bg-dark">
-									<h5 class="card-title text-white">Description</h5>
-									<p data-record-description class="card-text text-white">
-										<%=record.description%>
-									</p>
-								</li>
-							</ul>
-						</div>
-						<div class="card-footer d-flex justify-content-around py-3">
-							<a data-edit-button="<%=record._id%>" href="form-edit-record/<%=record._id%>" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#modalFormEditRecord">Edit</a>
-							<a data-delete-button="<%=record._id%>" href="delete-record-no-js/<%=record._id%>" class="btn btn-outline-warning">Delete</a>
-						</div>
+				<div class="d-flex row justify-content-center">
+					<div class="card bg-dark border-white">
+							<div class="card-body border-white row d-flex justify-content-between">
+								<span class="col-2 fs-3 spent">Date</span>
+								<span class="col-2 fs-3 spent">Category</span>
+								<span class="col-2 fs-3 spent">Spent</span>
+								<span class="col-5 fs-3 spent">Description</span>
+								<span class="col-1 fs-3 spent">Option</span>
+							</div>
+							<div id="record-wrapper">
+								<% if (records) {
+									records.forEach(record => { %>
+								<x-record-card>
+									<span slot="id"><%=record._id%></span>
+									<span slot="date"><%=new Date(record.createdAt).toDateString();%></span>
+									<span slot="category-id"><%=record.category._id%></span>
+									<span slot="category-name"><%=record.category.name%></span>
+									<span slot="spent"><%=record.money%></span>
+									<span slot="description"><%=record.description%></span>
+								</x-record-card>
+								<%	});
+								} %>
+							</div>
 					</div>
-					<%	});
-					} else { %>
-						<h1 class ="text-white"><%=message%></h1>
-					<%}%> 
-					</div>
+						
+				
 				</div>
 
 			</div>	
