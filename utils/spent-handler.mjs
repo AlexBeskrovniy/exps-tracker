@@ -1,24 +1,19 @@
 import { Total } from '../models/total.mjs';
 import { Record } from '../models/record.mjs';
-import * as stat from './stat-counter.mjs';
+import moment from 'moment';
 
 export const setTotalSpent = async () => {
     try {
         const allMoney = await Record.find({}, {money: 1, createdAt: 1, _id: 0});
 
-        let total = stat.moneyCounter(allMoney);
-        let lastDaySpents  = stat.moneyCounter(stat.getPeriodSpents(allMoney, stat.getPeriodTimestamp(1)));
-        let lastWeekSpents  = stat.moneyCounter(stat.getPeriodSpents(allMoney, stat.getPeriodTimestamp(7)));
-        let lastMountSpents  = stat.moneyCounter(stat.getPeriodSpents(allMoney, stat.getPeriodTimestamp(30)));
-        let lastYearSpents  = stat.moneyCounter(stat.getPeriodSpents(allMoney, stat.getPeriodTimestamp(365)));
+        let total = 0;
+        allMoney.forEach(function(money) {
+        total += money.money;
+    });
 
 		await Total.findOneAndUpdate({ name: 'Total' },
         {
-            totalSpent: total,
-            lastDaySpents: lastDaySpents,
-            lastWeekSpents: lastWeekSpents,
-            lastMountSpents: lastMountSpents,
-            lastYearSpents: lastYearSpents
+            totalSpent: total
         },
         { upsert: true, new: true });
     } catch (err) {
@@ -35,10 +30,15 @@ export const getTotalSpent = async () => {
     }
 }
 
-export const getStatistics = async () => {
+export const getSpentInfo = async () => {
     try {
-        let stats = await Total.findOne({ name: 'Total' }, 'lastDaySpents lastMountSpents lastWeekSpents lastYearSpents');
-        return stats;
+        const allMoney = await Record.find(
+            { createdAt:
+                { $gte: moment().startOf('month').toISOString() }
+            },
+            {money: 1, createdAt: 1, _id: 0}
+            ).sort( {createdAt: -1} );
+        return allMoney;
     } catch (err) {
         console.error(err);
     }

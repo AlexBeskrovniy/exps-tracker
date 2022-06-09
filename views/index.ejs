@@ -10,27 +10,18 @@
 		<!-- MAIN -->
 		<main class="main">
 			<div class="container d-flex justify-content-center">
-				<div class="d-flex flex-column col-lg-6 align-items-center my-5 py-5">
+				<div class="d-flex flex-column col-lg-6 align-items-center my-2">
 					<ul class="list-unstyled">
 						<li class="d-flex align-items-center justify-content-between m-3">
-							<h3 class="text-white text-uppercase mx-3 my-0">Last 24 hours:</h3>
-							<span data-spent="lastDaySpents" class="spent fs-1"></span>
-						</li>
-						<li class="d-flex align-items-center justify-content-between m-3">
-							<h3 class="text-white text-uppercase mx-3 my-0">Last 7 days:</h3>
-							<span data-spent="lastWeekSpents" class="spent fs-1"></span>
-						</li>
-						<li class="d-flex align-items-center justify-content-between m-3">
-							<h3 class="text-white text-uppercase mx-3 my-0">Last 30 days:</h3>
-							<span data-spent="lastMountSpents" class="spent fs-1"></span>
-						</li>
-						<li class="d-flex align-items-center justify-content-between m-3">
-							<h3 class="text-white text-uppercase mx-3 my-0">Last year:</h3>
-							<span data-spent="lastYearSpents" class="spent fs-1"></span>
+							<h3 class="text-white text-uppercase mx-3 my-0">In this month:</h3>
+							<span data-spent class="spent fs-1"></span>
 						</li>
 					</ul>
 				</div>
-			</div>	
+			</div>
+			<div class="d-flex justify-content-center mx-auto" style="max-width: 800px">
+				<canvas id="myChart"></canvas>
+			</div>
 		</main>
 		<!--/MAIN -->
 
@@ -50,6 +41,6 @@
 		<%- include('partials/footer'); -%>
 		<!--/FOOTER -->
 
-		<script type="module" src="js/stats.js"></script>
+		<script type="module" src="js/modules/main-chart.js"></script>
 	</body>
 </html>

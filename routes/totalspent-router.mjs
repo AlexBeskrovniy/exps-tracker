@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getStatistics, getTotalSpent } from '../utils/spent-handler.mjs';
+import { getTotalSpent, getSpentInfo } from '../utils/spent-handler.mjs';
 
 const router = Router();
 
@@ -12,10 +12,10 @@ router
             console.error(err);
         }
     })
-    .get('/stats', async (req, res) => {
+    .get('/infochart', async (req, res) => {
         try {
-            const stats = await getStatistics();
-            res.status(200).json({...stats._doc});
+            const info = await getSpentInfo();
+            res.status(200).send(info);
         } catch (err) {
             console.error(err);
         }

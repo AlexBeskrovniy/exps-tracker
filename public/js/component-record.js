@@ -1,4 +1,5 @@
-import { setFetchParams, getTotalSpentFromServer, getStatsFromServer } from './modules/utils.js';
+import { getTotalSpentFromServer } from './modules/statistics.js';
+import { setFetchParams } from './modules/utils.js';
 
 const recordForm = document.querySelector('[data-record]');
 const wrapper = document.querySelector('#record-wrapper');
@@ -70,7 +71,6 @@ recordForm.addEventListener('submit', function(e) {
         }
         bootstrap.Modal.getOrCreateInstance(modalCreateRecord).hide();
         getTotalSpentFromServer();
-        getStatsFromServer();
     })
     .catch(e => console.error(e))
 });
@@ -88,7 +88,6 @@ editForm.addEventListener('submit', e => {
         card.querySelector('[slot="description"]').textContent = data.description;
         modalRec.hide();
         getTotalSpentFromServer();
-        getStatsFromServer();
     }).catch(err => console.error(err));
 });
 
@@ -103,7 +102,6 @@ deleteBtn.addEventListener('click', (e) => {
         card.remove();
         modalRec.hide();
         getTotalSpentFromServer();
-        getStatsFromServer();
     }).catch(e => console.error(e));
 });
 
