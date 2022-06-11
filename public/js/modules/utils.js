@@ -1,3 +1,5 @@
+import { AlertCard } from './AlertComponent.js';
+
 export const setFetchParams = (body, method) => {
     return {
         headers: {
@@ -6,6 +8,14 @@ export const setFetchParams = (body, method) => {
         method: method,
         body: JSON.stringify(body)
     }
+}
+
+export const getAlert = (status, model, action) => {
+    let alert;
+    status ?
+    alert = new AlertCard(`${model} has successfully ${action}!`, true) :
+    alert = new AlertCard('Something went wrong...', false);
+    return alert;
 }
 
 

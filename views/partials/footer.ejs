@@ -17,7 +17,28 @@
 	</div>
 </footer>
 
-<script type="module" src="js/component-category.js"></script>
-<script type="module" src="js/component-record.js"></script>
+<!--Alert Template-->
+<%- include('templates/alert-template'); -%>
+<!--/Alert Template-->
+
+<!--Modal Window Form Create Record-->
+<%- include('modal-form-new-record'); -%>
+<!--/Modal Window Form Create Record--->
+
+<!--Modal Window Form Edit Record-->
+<%- include('modal-form-edit-record'); -%>
+<!--/Modal Window Form Edit Record--->
+
+<!--Modal Window Form Create Category-->
+<%- include('modal-form-new-category'); -%>
+<!--/Modal Window Form Create Category-->
+
+<!--Modal Window Form Edit Category-->
+<%- include('modal-form-edit-category'); -%>
+<!--/Modal Window Form Edit Category-->
+
+<script type="module" src="js/modules/AlertComponent.js"></script>
+<script type="module" src="js/modules/CategoryComponent.js"></script>
+<script type="module" src="js/modules/RecordComponent.js"></script>
 <!-- Bootstrap js -->
 <script src="js/bootstrap.bundle.min.js"></script>
