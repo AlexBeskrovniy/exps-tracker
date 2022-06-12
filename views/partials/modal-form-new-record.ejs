@@ -1,8 +1,8 @@
 <div class="modal fade" id="modalFormNewRecord" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered">
 		<div class="modal-content bg-dark">
-			<div class="modal-body">
-				<div class="form-card card bg-dark mt-3">
+			<div class="modal-body mx-auto">
+				<div class="form-card card bg-dark mt-3 mx-auto">
 					<h5 class="card-header text-white text-center">Create a new Record</h5>
 					<div class="card-body">
 						<form data-record>
@@ -16,9 +16,7 @@
 										categoriesNames.forEach(function(category) { %>
 											<option value="<%=category.id%>"><%=category.name%></option>
 										<% });
-									} else { %>
-										<option value="">No Categories</option>
-									<%}%> 
+									} %>
 								</select>
 								<label for="floatingSelect">Choose a Category</label>
 							</div>

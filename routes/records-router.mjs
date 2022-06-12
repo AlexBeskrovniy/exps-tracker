@@ -11,11 +11,7 @@ router
             const record = new Record({...req.body});
             record.save();
             await record.populate('category', 'name');
-            const total = await getTotalSpent();
-            res.status(201).json({
-                ...record._doc,
-                total: total
-            });
+            res.status(201).json({...record._doc});
         } catch (err) {
             console.error(err)
             res.status(400).end();
@@ -30,11 +26,7 @@ router
                 return res.status(400).end()
             }
 
-            const total = await getTotalSpent();
-            res.status(200).json({
-                ...editedRecord._doc,
-                total: total
-            });
+            res.status(200).json({...editedRecord._doc});
         } catch (err) {
             console.error(err)
             res.status(400).end()
@@ -49,11 +41,7 @@ router
             return res.status(400).end();
             }
             
-            const total = await getTotalSpent();
-            return res.status(200).json({
-                id: deleted._id,
-                total: total
-            });
+            return res.status(200).json({id: deleted._id});
         } catch (err) {
             console.error(err);
             res.status(400).end();

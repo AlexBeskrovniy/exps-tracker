@@ -7,25 +7,37 @@
 <!-- Bootstrap CSS-->
 <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css"/>
 
-    <div data-record-div class="card-body row d-flex justify-content-between align-items-center">
-        <span class="col-2 fs-5 text-white">
+    <div data-record-div class="card-footer border-white row d-flex justify-content-between align-items-center text-center">
+        <span class="col-4 col-lg-2 fs-5 text-white mx-auto">
             <slot name="date"></slot>
         </span>
-        <span class="col-2 fs-5 text-white">
+        <span class="col-4 col-lg-2 fs-5 text-white mx-auto">
             <slot name="category-name"></slot>
         </span>
-        <span class="col-2 fs-3" style="color: #FFC107;">
+        <span class="col-4 col-lg-2 fs-3 mx-auto" style="color: #FFC107;">
             <slot name="spent"></slot>
         </span>
-        <span class="col-5 fs-5 text-white">
+        <span class="row mt-3 col-lg-5 fs-5 text-white mt-lg-0 mx-auto">
             <slot name="description"></slot>
         </span>
-        <span class="col-1 fs-5 text-white">
+        <span class="row mt-3 col-lg-1 fs-5 text-white mt-lg-0 mx-auto">
             <a data-edit-button href="#" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#modalFormEditRecord">
                 Edit
             </a>
         </span>
     </div>
+
+    
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasRightLabel">Offcanvas справа</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Закрыть"></button>
+  </div>
+  <div class="offcanvas-body">
+    ...
+  </div>
+</div>
 </template>
 
 <template id="record-slots">

@@ -17,10 +17,9 @@ const result = info.reduce((accum, curent) => {
 
 const labels = [];
 const spents = [];
-console.log(Object.entries(result));
 Object.entries(result).map(([ date, money ]) => {
 	labels.unshift(date);
-    spents.unshift(money);
+  spents.unshift(money);
 });
 
 const ctx = document.getElementById('myChart');

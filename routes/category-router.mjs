@@ -1,7 +1,6 @@
 import { Router } from 'express';
 import { Category } from '../models/category.mjs';
 import { Record } from '../models/record.mjs';
-import { getTotalSpent } from '../utils/spent-handler.mjs';
 
 const router = Router();
 
@@ -26,11 +25,7 @@ router
             return res.status(400).end()
             }
 
-            const total = await getTotalSpent();
-            res.status(200).json({
-                ...editedRecord._doc,
-                total: total
-            });
+            res.status(200).json({...editedRecord._doc});
         } catch (err) {
             console.error(err)
             res.status(400).end()
@@ -57,11 +52,7 @@ router
             
             await Record.updateMany({category: deleted._id}, {$set: {category: defaultCategory._id}});
             
-            const total = await getTotalSpent();
-            return res.status(200).json({
-                id: deleted._id,
-                total: total
-            });
+            return res.status(200).json({id: deleted._id});
         } catch (err) {
             console.error(err);
             res.status(400).end();

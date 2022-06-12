@@ -1,4 +1,4 @@
-import { setFetchParams, getAlert } from './utils.js';
+import { setFetchParams, getAlert } from '../utils.js';
 
 const categoryForm = document.querySelector('[data-category]');
 const wrapper = document.querySelector('#category-wrapper');
@@ -19,7 +19,7 @@ export const CategoryCard = class extends HTMLElement {
         this.name = name || this.querySelector('[slot="name"]').textContent;
         this.description = description || this.querySelector('[slot="description"]').textContent;
         this.setAttribute('data-id', this.id);
-        this.setAttribute('class', 'col-sm-6 col-md-3 my-2 mx-0');
+        this.setAttribute('class', 'col-sm-6 col-lg-3 my-2 mx-0');
         this.setAttribute('style', 'width: 17rem"');
     }
 

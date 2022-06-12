@@ -12,13 +12,13 @@
 		<main class="main">
 			<div class ="container">
 				<div class="d-flex flex-wrap align-items-center justify-content-center justify-content-sm-between py-5">
-					<h2 class="page-title ms-2 mb-0">List of the Categories</h2>
-					<a href="/form-create-category" class="btn btn-outline-warning btn-lg me-2" data-bs-toggle="modal" data-bs-target="#modalFormNewCategory">Create Category</a>
+					<h2 class="page-title mx-2 mb-0">List of the Categories</h2>
+					<a href="/form-create-category" class="btn btn-outline-warning btn-lg mt-3 mt-sm-0 ms-2" data-bs-toggle="modal" data-bs-target="#modalFormNewCategory">Create Category</a>
 				</div>
 				<div class="row d-flex justify-content-center">
 					<div id="alert-wrapper" class="col-md-6"></div>
 				</div>
-				<div id="category-wrapper" class="d-flex row justify-content-center justify-content-xxl-start">
+				<div id="category-wrapper" class="d-flex row justify-content-start">
 					<%if (categories) {
 						categories.forEach(category => { %>
 							<x-category-card>

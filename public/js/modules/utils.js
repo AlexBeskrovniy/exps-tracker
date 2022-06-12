@@ -1,4 +1,4 @@
-import { AlertCard } from './AlertComponent.js';
+import { AlertCard } from './components/AlertComponent.js';
 
 export const setFetchParams = (body, method) => {
     return {

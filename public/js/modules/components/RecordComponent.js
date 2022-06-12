@@ -1,5 +1,5 @@
-import { getTotalSpentFromServer } from './statistics.js';
-import { setFetchParams, getAlert } from './utils.js';
+import { getTotalSpentFromServer } from '../statistics.js';
+import { setFetchParams, getAlert } from '../utils.js';
 
 getTotalSpentFromServer();
 

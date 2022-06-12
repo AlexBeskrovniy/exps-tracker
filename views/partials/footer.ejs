@@ -1,17 +1,22 @@
-<footer class="footer fixed-bottom py-3 bg-dark text white">
+<footer class="footer fixed-bottom bg-dark text white pb-3">
+	<div class="row d-flex justify-content-center">
+		<a href="/form-create-record" class="btn btn-warning btn-lg d-inline-block d-lg-none" data-bs-toggle="modal" data-bs-target="#modalFormNewRecord">
+			Create Record
+		</a>
+	</div>
 	<div class="container">
-		<div class="d-flex flex-wrap align-items-center justify-content-around">
+		<div class="d-flex flex-wrap align-items-center justify-content-around pt-3">
 			<div>
-				<p class="text-white">Expenses Tracker version: 1.0.0.</p>
+				<p class="text-white mb-0">Expenses Tracker version: 1.0.0.</p>
 			</div>
 			<div>
-				<p class="text-white">
+				<p class="text-white mb-0">
 					All rights reserved - 
 					<script>document.write(new Date().getFullYear());</script>
 				</p>
 			</div>
 			<div>
-				<p><a href="https://github.com/AlexBlacksmith/exps-tracker" target="_blank" class="nav-link text-white">GitHub Repo.</a></p>
+				<a href="https://github.com/AlexBlacksmith/exps-tracker" target="_blank" class="nav-link text-white p-0">GitHub Repo.</a>
 			</div>
 		</div>
 	</div>
@@ -37,8 +42,8 @@
 <%- include('modal-form-edit-category'); -%>
 <!--/Modal Window Form Edit Category-->
 
-<script type="module" src="js/modules/AlertComponent.js"></script>
-<script type="module" src="js/modules/CategoryComponent.js"></script>
-<script type="module" src="js/modules/RecordComponent.js"></script>
+<script type="module" src="js/modules/components/AlertComponent.js"></script>
+<script type="module" src="js/modules/components/CategoryComponent.js"></script>
+<script type="module" src="js/modules/components/RecordComponent.js"></script>
 <!-- Bootstrap js -->
 <script src="js/bootstrap.bundle.min.js"></script>
