@@ -19,7 +19,11 @@ router
     // //Update Category
     .put('/edit-category', async (req, res) => {
         try {
-            const editedRecord = await Category.findOneAndUpdate({ _id: req.body.id }, req.body, { new: true });
+            const editedRecord = await Category.findOneAndUpdate(
+                { _id: req.body.id }, 
+                req.body, 
+                { new: true }
+            );
 
             if (!editedRecord) {
             return res.status(400).end()
@@ -60,3 +64,5 @@ router
     });
 
 export default router;
+
+

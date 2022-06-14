@@ -11,7 +11,8 @@
 								<label for="floatingInputNum">How much money was spent?</label>
 							</div>
 							<div class="form-floating mb-3">
-								<select name="category" class="form-select" id="floatingSelect" required>
+								<select name="category" class="form-select" id="floatingSelect">
+									<option value="">No category</option>
 									<% if (categoriesNames) {
 										categoriesNames.forEach(function(category) { %>
 											<option value="<%=category.id%>"><%=category.name%></option>

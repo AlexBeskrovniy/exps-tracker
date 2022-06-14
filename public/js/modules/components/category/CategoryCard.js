@@ -1,62 +1,27 @@
-import { setDataToCard } from '../utils.js';
+import { setDataToCard, setValuesToForm } from '../../utils.js';
 
 const categoryTemp = document.querySelector('#categoryTemp');
 
 customElements.define('x-category-card', class extends HTMLElement {
     connectedCallback() {
-        const attrs = ['name', 'description'];
+        this.attrs = ['name', 'description'];
         this.replaceChildren(...categoryTemp.content.cloneNode(true).childNodes);
-        this.setAttribute('class', 'col-sm-6 col-lg-3 my-2 mx-0');
-        this.setAttribute('style', 'width: 17rem"');
-        setDataToCard(this, attrs);
+        this.classList.add('col-sm-6', 'col-lg-3', 'my-2', 'mx-0');
+        setDataToCard(this, 'category', this.attrs);
+        this.editBtn = this.querySelector('[data-edit-button]');
+        this.editBtn.addEventListener('click', this.showEditForm.bind(this));
+    }
+    showEditForm(e) {
+        const editForm = document.querySelector('[data-category-edit]');
+        setValuesToForm(editForm,
+            {
+                id: this.getAttribute('id' ),
+                name: this.getAttribute('name'),
+                description: this.getAttribute('description')
+            }
+        );
     }
 });
-
-// import { setFetchParams, getAlert } from '../utils.js';
-
-// const categoryForm = document.querySelector('[data-category]');
-// const wrapper = document.querySelector('#category-wrapper');
-// const modalCreate = document.getElementById('modalFormNewCategory');
-// const categoryCard = document.getElementById('category-temp');
-// const slots = document.getElementById('category-slots');
-// const modalEdit = document.querySelector('#modalFormEditCategory');
-// const modal = new bootstrap.Modal(modalEdit);
-// const editForm = modalEdit.querySelector('[data-edit-category]');
-// const deleteBtn = modalEdit.querySelector('[data-delete-button]');
-// const alertWrapper = document.getElementById('alert-wrapper');
-
-// export const CategoryCard = class extends HTMLElement {
-//     constructor(id, name, description) {
-//         super();
-//         this.appendChild(slots.content.cloneNode(true));
-//         this._id = id || this.querySelector('[slot="id"]').textContent;
-//         this.name = name || this.querySelector('[slot="name"]').textContent;
-//         this.description = description || this.querySelector('[slot="description"]').textContent;
-//         this.setAttribute('data-id', this.id);
-//         this.setAttribute('class', 'col-sm-6 col-lg-3 my-2 mx-0');
-//         this.setAttribute('style', 'width: 17rem"');
-//     }
-
-//     get id() {
-//         return this._id;
-//     }
-
-//     connectedCallback() {
-//         const shadowRoot = this.attachShadow({mode: 'open'});
-//         shadowRoot.appendChild(categoryCard.content.cloneNode(true));
-
-//         const editBtn = shadowRoot.querySelector('[data-edit-button]');
-
-//         editBtn.addEventListener('click', (e) => {
-//             e.preventDefault();
-//             modalEdit.querySelector('[name="name"]').value = this.name;
-//             modalEdit.querySelector('[name="description"]').value = this.description;
-//             modalEdit.querySelector('[name="id"]').value = this.id;
-//             modal.show();
-//         });
-//     }
-// }
-// customElements.define('x-category-card', CategoryCard);
 
 // categoryForm.addEventListener('submit', function(e) {
 //     e.preventDefault();

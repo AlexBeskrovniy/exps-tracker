@@ -16,15 +16,12 @@
 					<a href="/form-create-category" class="btn btn-outline-warning btn-lg mt-3 mt-sm-0 ms-2" data-bs-toggle="modal" data-bs-target="#modalFormNewCategory">Create Category</a>
 				</div>
 				<div class="row d-flex justify-content-center">
-					<div id="alert-wrapper" class="col-md-6"></div>
+					<div id="alertWrapper" class="col-md-6"></div>
 				</div>
-				<div id="category-wrapper" class="d-flex row justify-content-start">
+				<div id="categoryWrapper" class="d-flex row justify-content-start">
 					<%if (categories) {
 						categories.forEach(category => { %>
-							<x-category-card>
-								<span slot="id"><%-category._id %></span>
-								<span slot="name"><%-category.name %></span>
-								<span slot="description"><%-category.description %></span>
+							<x-category-card id="<%=category._id%>" name="<%=category.name%>" description="<%=category.description%>">
 							</x-category-card>
 						<%});
 					}%>

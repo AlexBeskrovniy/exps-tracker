@@ -1,16 +1,14 @@
 export const AlertCard = class extends HTMLElement {
-    constructor(message, bool) {
+    constructor(message, status) {
         super();
         this.message = message;
-        this.bool = bool
         const temp = document.getElementById('alert-temp');
         this.appendChild(temp.content.cloneNode(true));
         const alertDiv = this.querySelector('[data-alert]');
-        if (this.bool) {
-            alertDiv.setAttribute('class', 'alert alert-success d-flex align-items-center justify-content-between mb-2 p-1');
-        } else {
-            alertDiv.setAttribute('class', 'alert alert-danger d-flex align-items-center justify-content-between mb-2 p-1');
-        }
+        
+        status
+        ? alertDiv.classList.add('alert-success')
+        : alertDiv.classList.add('alert-danger');
     }
 
     connectedCallback() {

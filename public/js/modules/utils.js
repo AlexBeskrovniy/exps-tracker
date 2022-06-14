@@ -10,13 +10,41 @@ export const setFetchParams = (body, method) => {
     }
 }
 
-export const getAlert = (status, model, action) => {
-    let alert;
-    status ?
-    alert = new AlertCard(`${model} has successfully ${action}!`, true) :
-    alert = new AlertCard('Something went wrong...', false);
-    return alert;
+export const setDataToCard = (card, model, attrs) => {
+    attrs.map(attr => {
+        card.querySelector(`[data-${model}-${attr}]`).textContent = card.getAttribute(attr);
+    });
 }
+
+export const setValuesToForm = (form, values) => {
+    Object.entries(values).map(([key, value]) => {
+        form.querySelector(`[name="${key}"]`).value = value;
+    });
+}
+
+export const doFetch = (data, props, wrapper) => {
+    return fetch(props.path, {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: props.method,
+        body: JSON.stringify(data)
+    })
+    .then(res => {
+        if (res.ok) {
+            wrapper.append(new AlertCard(props.msg, res.ok));
+        }
+        res.json()
+        .then(data => {
+            props.callback(data);
+        })
+        .catch(err => {
+            console.error(err);
+            wrapper.append(new AlertCard(err.message, false));
+        })
+    });  
+}
+
 
 
 // /*************************************************************** */

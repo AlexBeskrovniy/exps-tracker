@@ -9,11 +9,13 @@ export const setThisMonthSpents = (value) => {
 }
 
 export const getTotalSpentFromServer = async () => {
+    console.log('total trigger')
     try {
         const res = await fetch('/total', {
             method: 'GET'
         });
         const data = await res.json();
+        console.log(data);
         setTotalSpentToClient(data.total);
     } catch (err) {
         return console.error(err);

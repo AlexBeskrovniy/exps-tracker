@@ -8,8 +8,16 @@ router
     //Create Record
     .post('/create-record', async (req, res) => {
         try {
-            const record = new Record({...req.body});
-            record.save();
+            // if(!req.body.category) {
+            //     delete req.body.category;
+            // }
+            const { category, ...recordData } = req.body;            
+            // const record = new Record({...req.body});
+            const record =  new Record(recordData);
+            if(category) {
+                record.category = category;
+            }
+            await record.save();
             await record.populate('category', 'name');
             res.status(201).json({...record._doc});
         } catch (err) {

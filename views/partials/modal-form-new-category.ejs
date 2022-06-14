@@ -2,29 +2,31 @@
 	<div class="modal-dialog modal-dialog-centered">
 		<div class="modal-content bg-dark">
 			<div class="modal-body mx-auto">
-				<div class="form-card card bg-dark mt-3 mx-auto">
-					<h5 class="card-header text-white text-center">Create a new Category</h5>
-					<div class="card-body">
-						<form data-category method="POST">
-							<div class="form-floating mb-3">
-								<input type="text" name="name" class="form-control" id="floatingInput" placeholder="New Caregory" required>
-								<label for="floatingInput">Name</label>
-							</div>
-							<div class="form-floating mb-3">
-								<textarea name="description" class="form-control" id="floatingTextarea" placeholder="Description" required></textarea>
-								<label for="floatingTextarea">Description</label> 
-							</div>
-							<div class="d-flex justify-content-around">
-								<button type="submit" class="btn btn-outline-warning btn-lg">
-									Submit
-								</button>
-								<button type="reset" class="btn btn-outline-warning btn-lg">
-									Clear
-								</button>
-							</div>
-						</form>
+				<x-category-form type="create">
+					<div class="form-card card bg-dark mt-3 mx-auto">
+						<h5 class="card-header text-white text-center">Create a new Category</h5>
+						<div class="card-body">
+							<form data-category method="POST">
+								<div class="form-floating mb-3">
+									<input type="text" name="name" class="form-control" id="floatingInput" placeholder="New Caregory" required>
+									<label for="floatingInput">Name</label>
+								</div>
+								<div class="form-floating mb-3">
+									<textarea name="description" class="form-control" id="floatingTextarea" placeholder="Description" required></textarea>
+									<label for="floatingTextarea">Description</label> 
+								</div>
+								<div class="d-flex justify-content-around">
+									<button type="submit" class="btn btn-outline-warning btn-lg">
+										Submit
+									</button>
+									<button type="reset" class="btn btn-outline-warning btn-lg">
+										Clear
+									</button>
+								</div>
+							</form>
+						</div>
 					</div>
-				</div>
+				</x-category-form>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-outline-warning" data-bs-dismiss="modal">Close</button>
