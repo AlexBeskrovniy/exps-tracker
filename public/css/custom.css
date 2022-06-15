@@ -40,6 +40,15 @@ h1, h2, h3, h4, h5, h6,
 	width: 18.6rem;
 }
 
+.alert-card {
+	height: 50px;
+	width: 300px;
+	position: fixed;
+	top: 0;
+	left: 50%;
+    transform: translateX(-50%);
+}
+
 /**Adaptive cards with modal forms**/
 
 @media only screen and (max-width: 576px) {

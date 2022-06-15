@@ -14,10 +14,6 @@
 				<div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-between py-5">
 					<h2 class="page-title ms-2 mb-0">All Records</h2>
 				</div>
-				
-				<div class="row d-flex justify-content-center">
-					<div id="alertWrapper" class="col-md-6"></div>
-				</div>
 
 				<div class="d-flex row justify-content-center">
 					<div class="card bg-dark border-white">
@@ -28,16 +24,16 @@
 							<span class="row col-lg-5 fs-3 spent d-none d-lg-inline-block mx-auto">Description</span>
 							<span class="row col-lg-1 fs-3 spent d-none d-lg-inline-block mx-auto"></span>
 						</div>
-						<div id="record-wrapper">
+						<div id="recordWrapper">
 							<% if (records) {
 								records.forEach(record => { %>
-							<x-record-card>
-								<span slot="id"><%=record._id%></span>
-								<span slot="date"><%=new Date(record.createdAt).toDateString();%></span>
-								<span slot="category-id"><%=record.category._id%></span>
-								<span slot="category-name"><%=record.category.name%></span>
-								<span slot="spent"><%=record.money%></span>
-								<span slot="description"><%=record.description%></span>
+							<x-record-card 
+								id="<%=record._id%>",
+								date="<%=new Date(record.createdAt).toDateString();%>",
+								category-id = "<%=record.category._id%>",
+								category="<%=record.category.name%>",
+								money="<%=record.money%>",
+								description="<%=record.description%>">
 							</x-record-card>
 							<%	});
 							} %>

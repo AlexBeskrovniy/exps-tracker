@@ -1,17 +1,18 @@
 import { formRequestHandler } from '../../utils.js';
+import { getTotalSpentFromServer } from '../../statistics.js';
 
 const SELECTORS = {
-    categoryWrapper: '#categoryWrapper',
+    recordWrapper: '#recordWrapper',
     deleteBtn: '[data-delete-button]',
-    modalCreate: '#modalFormNewCategory',
-    modalEdit: '#modalFormEditCategory'
+    modalCreate: '#modalFormNewRecord',
+    modalEdit: '#modalFormEditRecord'
 }
 
-const categoryWrapper = document.querySelector(SELECTORS.categoryWrapper);
+const recordWrapper = document.querySelector(SELECTORS.recordWrapper);
 const modalCreate = document.querySelector(SELECTORS.modalCreate);
 const modalEdit = document.querySelector(SELECTORS.modalEdit);
 
-customElements.define('x-category-form', class extends HTMLElement {
+customElements.define('x-record-form', class extends HTMLElement {
     connectedCallback() {
         this.form = this.querySelector('form');
         this.form.addEventListener('submit', this.submitHandler.bind(this));
@@ -19,22 +20,23 @@ customElements.define('x-category-form', class extends HTMLElement {
             this.deleteBtn = this.querySelector(SELECTORS.deleteBtn);
             this.deleteBtn.addEventListener('click', this.deleteHandler.bind(this));
         }
+        getTotalSpentFromServer();
     }
     submitHandler(e) {
         e.preventDefault();
 
         const props = this.getAttribute('type') === 'create'
             ? { 
-                path: '/create-category',
+                path: '/create-record',
                 method: 'POST',
-                msg: 'Category has successfully created!',
+                msg: 'Record has successfully created!',
                 form: this.form,
                 callback: this.onCreate  
             }
             : { 
-                path: '/edit-category',
+                path: '/edit-record',
                 method: 'PUT',
-                msg: 'Category has successfully updated!',
+                msg: 'Record has successfully updated!',
                 form: this.form,
                 callback: this.onUpdate  
             };
@@ -43,28 +45,37 @@ customElements.define('x-category-form', class extends HTMLElement {
     }
 
     onCreate(data) {
-        const card = document.createElement('x-category-card');
-        card.setAttribute('id', data._id); 
-        card.setAttribute('name', data.name);
-        card.setAttribute('description', data.description);
+        if (recordWrapper) {
+            const card = document.createElement('x-record-card');
+            card.setAttribute('id', data._id);
+            card.setAttribute('date', new Date(data.createdAt).toDateString()); 
+            card.setAttribute('category-id', data.category._id);
+            card.setAttribute('category', data.category.name);
+            card.setAttribute('money', data.money);
+            card.setAttribute('description', data.description);
+            recordWrapper.prepend(card);
+        }
         bootstrap.Modal.getOrCreateInstance(modalCreate).hide();
-        categoryWrapper.prepend(card);
+        getTotalSpentFromServer();
     }
 
     onUpdate(data) {
         const card = document.querySelector(`[id="${data._id}"]`);
-        card.querySelector('[data-category-name]').textContent = data.name;
-        card.querySelector('[data-category-description]').textContent = data.description;
+        card.querySelector('[data-record-date]').textContent = new Date(data.createdAt).toDateString();
+        card.querySelector('[data-record-category]').textContent = data.category.name;
+        card.querySelector('[data-record-money]').textContent = data.money;
+        card.querySelector('[data-record-description]').textContent = data.description;
         bootstrap.Modal.getOrCreateInstance(modalEdit).hide();
+        getTotalSpentFromServer();
     }
 
     deleteHandler(e) {
         e.preventDefault();
 
         const props = { 
-            path: '/delete-category',
+            path: '/delete-record',
             method: 'DELETE',
-            msg: 'Category has successfully deleted!',
+            msg: 'Record has successfully deleted!',
             form: this.form,
             callback: this.onDelete  
         };
@@ -76,5 +87,6 @@ customElements.define('x-category-form', class extends HTMLElement {
         const card = document.querySelector(`[id="${data.id}"]`);
         card.remove();
         bootstrap.Modal.getOrCreateInstance(modalEdit).hide();
+        getTotalSpentFromServer();
     }        
 });

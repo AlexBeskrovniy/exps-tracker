@@ -1,21 +1,22 @@
 export const AlertCard = class extends HTMLElement {
     constructor(message, status) {
         super();
+        const template = document.querySelector('#alert-temp');
         this.message = message;
-        const temp = document.getElementById('alert-temp');
-        this.appendChild(temp.content.cloneNode(true));
-        const alertDiv = this.querySelector('[data-alert]');
+        this.appendChild(template.content.cloneNode(true));
+        this.container = this.querySelector('[data-alert]');
+        this.messageContainer = this.querySelector('[data-message]');
+        this.closeBtn = this.querySelector('[data-close]');
+        this.classList.add('alert-card');
         
         status
-        ? alertDiv.classList.add('alert-success')
-        : alertDiv.classList.add('alert-danger');
+            ? this.container.classList.add('alert-success')
+            : this.container.classList.add('alert-danger');
     }
 
     connectedCallback() {
-        const message = this.querySelector('[data-message]');
-        message.textContent = this.message;
-        const closeBtn = this.querySelector('[data-close]');
-        closeBtn.addEventListener('click', (e) => {
+        this.messageContainer.textContent = this.message;
+        this.closeBtn.addEventListener('click', (e) => {
             e.preventDefault();
             this.remove();
         });

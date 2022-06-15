@@ -1,15 +1,5 @@
 import { AlertCard } from './components/AlertComponent.js';
 
-export const setFetchParams = (body, method) => {
-    return {
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        method: method,
-        body: JSON.stringify(body)
-    }
-}
-
 export const setDataToCard = (card, model, attrs) => {
     attrs.map(attr => {
         card.querySelector(`[data-${model}-${attr}]`).textContent = card.getAttribute(attr);
@@ -22,58 +12,23 @@ export const setValuesToForm = (form, values) => {
     });
 }
 
-export const doFetch = (data, props, wrapper) => {
-    return fetch(props.path, {
+export const formRequestHandler = ({ form, path, method, msg, callback }) => {
+    const data = Object.fromEntries(new FormData(form).entries());
+
+    return fetch(path, {
         headers: {
             'Content-Type': 'application/json'
         },
-        method: props.method,
+        method: method,
         body: JSON.stringify(data)
     })
-    .then(res => {
-        if (res.ok) {
-            wrapper.append(new AlertCard(props.msg, res.ok));
-        }
-        res.json()
-        .then(data => {
-            props.callback(data);
-        })
-        .catch(err => {
-            console.error(err);
-            wrapper.append(new AlertCard(err.message, false));
-        })
+    .then(res => res.json())
+    .then(data => {
+        callback(data);
+        document.body.append(new AlertCard(msg, true));
+    })
+    .catch(err => {
+        console.error(err);
+        document.body.append(new AlertCard(err.message, false));
     });  
 }
-
-
-
-// /*************************************************************** */
-
-// import { fetchParams } from "./utils.js";
-
-// const SELECTORS = {
-//     deleteBtn: '[data-delete-button]',
-//     record: '[data-record]'
-// };
-
-// const records = document.querySelectorAll(SELECTORS.record);
-
-// records.forEach(el => setRecord(el))
-
-// function setRecord(element) {    
-//     const deleteButton = element.querySelector(SELECTORS.deleteBtn);
-//     const id = element.dataset.recordId;
-//     deleteButton.addEventListener('click', (e) => handleDeleteRecord(e, element, id))
-// }
-
-// async function handleDeleteRecord(e, element, id) {
-//     e.preventDefault();
-//     await deleteRecord(id);
-//     element.remove();
-// }
-
-// function deleteRecord(id) {
-//     fetch('delete-record', fetchParams({ id }, 'DELETE'))
-//         .then(res => res.json())
-//         .then(data => console.log('removed'))
-// }
