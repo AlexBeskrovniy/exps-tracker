@@ -16,10 +16,7 @@ export const AlertCard = class extends HTMLElement {
 
     connectedCallback() {
         this.messageContainer.textContent = this.message;
-        this.closeBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            this.remove();
-        });
+        setTimeout(() => { this.remove() }, 3000);
     }
 }
 

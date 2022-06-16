@@ -1,27 +1,39 @@
 import { formRequestHandler } from '../../utils.js';
 import { getTotalSpentFromServer } from '../../statistics.js';
 
+getTotalSpentFromServer();
+
 const SELECTORS = {
     recordWrapper: '#recordWrapper',
-    deleteBtn: '[data-delete-button]',
-    modalCreate: '#modalFormNewRecord',
-    modalEdit: '#modalFormEditRecord'
+    deleteBtn: '[data-delete-button]'
 }
 
 const recordWrapper = document.querySelector(SELECTORS.recordWrapper);
-const modalCreate = document.querySelector(SELECTORS.modalCreate);
-const modalEdit = document.querySelector(SELECTORS.modalEdit);
 
 customElements.define('x-record-form', class extends HTMLElement {
     connectedCallback() {
         this.form = this.querySelector('form');
+        this.select = this.form.querySelector('select');
         this.form.addEventListener('submit', this.submitHandler.bind(this));
+        this.modal = this.closest('.modal');
         if (this.getAttribute('type') === 'edit') {
             this.deleteBtn = this.querySelector(SELECTORS.deleteBtn);
             this.deleteBtn.addEventListener('click', this.deleteHandler.bind(this));
         }
-        getTotalSpentFromServer();
+        document.addEventListener('category:update', this.update.bind(this));
     }
+
+    update() {
+        fetch('/get-categories')
+            .then(res => res.json())
+            .then(data => {
+                this.select.innerHTML = `${data.reduce((acc, cur) => {
+                    return acc += `<option value="${cur._id}">${cur.name}</option>`
+                }, '')}`
+            })
+            .catch(err => console.error(err));
+    }
+
     submitHandler(e) {
         e.preventDefault();
 
@@ -31,17 +43,18 @@ customElements.define('x-record-form', class extends HTMLElement {
                 method: 'POST',
                 msg: 'Record has successfully created!',
                 form: this.form,
-                callback: this.onCreate  
+                callback: this.onCreate.bind(this)  
             }
             : { 
                 path: '/edit-record',
                 method: 'PUT',
                 msg: 'Record has successfully updated!',
                 form: this.form,
-                callback: this.onUpdate  
+                callback: this.onUpdate.bind(this)  
             };
         
         formRequestHandler({ ...props });
+        e.target.reset();
     }
 
     onCreate(data) {
@@ -55,7 +68,7 @@ customElements.define('x-record-form', class extends HTMLElement {
             card.setAttribute('description', data.description);
             recordWrapper.prepend(card);
         }
-        bootstrap.Modal.getOrCreateInstance(modalCreate).hide();
+        this.closeModal();
         getTotalSpentFromServer();
     }
 
@@ -65,7 +78,7 @@ customElements.define('x-record-form', class extends HTMLElement {
         card.querySelector('[data-record-category]').textContent = data.category.name;
         card.querySelector('[data-record-money]').textContent = data.money;
         card.querySelector('[data-record-description]').textContent = data.description;
-        bootstrap.Modal.getOrCreateInstance(modalEdit).hide();
+        this.closeModal();
         getTotalSpentFromServer();
     }
 
@@ -77,7 +90,7 @@ customElements.define('x-record-form', class extends HTMLElement {
             method: 'DELETE',
             msg: 'Record has successfully deleted!',
             form: this.form,
-            callback: this.onDelete  
+            callback: this.onDelete.bind(this) 
         };
 
         formRequestHandler({ ...props });
@@ -86,7 +99,11 @@ customElements.define('x-record-form', class extends HTMLElement {
     onDelete(data) {
         const card = document.querySelector(`[id="${data.id}"]`);
         card.remove();
-        bootstrap.Modal.getOrCreateInstance(modalEdit).hide();
+        this.closeModal();
         getTotalSpentFromServer();
-    }        
+    }
+    
+    closeModal() {
+        bootstrap.Modal.getOrCreateInstance(this.modal).hide();
+    }
 });

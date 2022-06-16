@@ -5,11 +5,20 @@ import { Record } from '../models/record.mjs';
 const router = Router();
 
 router
+    .get('/get-categories', async (req, res) => {
+        try {
+            const categories = await Category.find();
+            res.status(201).json(categories.map(c => c._doc));
+        } catch(err) {
+            console.error(err)
+            res.status(400).end();
+        }
+    })
     //Create Category
-    .post('/create-category', (req, res) => {
+    .post('/create-category', async (req, res) => {
         try {
             const category = new Category({...req.body});
-            category.save();
+            await category.save();
             res.status(201).json({...category._doc});
         } catch (err) {
             console.error(err)
