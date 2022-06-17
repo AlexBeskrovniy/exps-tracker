@@ -14,7 +14,6 @@ export const setValuesToForm = (form, values) => {
 
 export const formRequestHandler = ({ form, path, method, msg, callback }) => {
     const data = Object.fromEntries(new FormData(form).entries());
-
     return fetch(path, {
         headers: {
             'Content-Type': 'application/json'

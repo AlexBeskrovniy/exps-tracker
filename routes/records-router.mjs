@@ -8,15 +8,11 @@ router
     //Create Record
     .post('/create-record', async (req, res) => {
         try {
-            // if(!req.body.category) {
-            //     delete req.body.category;
-            // }
-            const { category, ...recordData } = req.body;            
-            // const record = new Record({...req.body});
-            const record =  new Record(recordData);
-            if(category) {
-                record.category = category;
-            }
+            if(!req.body.category) {
+                delete req.body.category;
+            }            
+            const record =  new Record(req.body);
+            
             await record.save();
             await record.populate('category', 'name');
             res.status(201).json({...record._doc});
@@ -28,8 +24,11 @@ router
     //Update Record
     .put('/edit-record', async (req, res) => {
         try {
+            if(!req.body.category) {
+                delete req.body.category;
+            } 
             const editedRecord = await Record.findOneAndUpdate({ _id: req.body.id }, req.body, { new: true }).populate('category', 'name');
-            
+
             if (!editedRecord) {
                 return res.status(400).end()
             }

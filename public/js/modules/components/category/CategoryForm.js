@@ -60,16 +60,17 @@ customElements.define('x-category-form', class extends HTMLElement {
 
     deleteHandler(e) {
         e.preventDefault();
-
-        const props = { 
-            path: '/delete-category',
-            method: 'DELETE',
-            msg: 'Category has successfully deleted!',
-            form: this.form,
-            callback: this.onDelete.bind(this) 
-        };
-
-        formRequestHandler({ ...props });
+        if (confirm("This action will remove this category. Continue?")) {
+            const props = { 
+                path: '/delete-category',
+                method: 'DELETE',
+                msg: 'Category has successfully deleted!',
+                form: this.form,
+                callback: this.onDelete.bind(this) 
+            };
+    
+            formRequestHandler({ ...props });
+        }
     }
 
     onDelete(data) {

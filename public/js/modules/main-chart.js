@@ -1,55 +1,61 @@
-import { getInfoForChart, countSpents, setThisMonthSpents } from './statistics.js';
+import { getInfoForChart, countSpents, setThisMonthSpents, chartInfoHandler } from './statistics.js';
 
 const info = await getInfoForChart();
 const thisMonthSpents = countSpents(info);
 
 setThisMonthSpents(thisMonthSpents);
 
-const result = info.reduce((accum, curent) => {
-	const date = moment(curent.createdAt).format('MMM Do YY');
-  if(!accum[date]) {
-  	accum[date] = curent.money;
-  } else {
-		accum[date] += curent.money;
-  }
-  return accum;
-}, {});
-
-const labels = [];
-const spents = [];
-Object.entries(result).map(([ date, money ]) => {
-	labels.unshift(date);
-  spents.unshift(money);
-});
+const finalInfo = chartInfoHandler(info);
 
 const ctx = document.getElementById('myChart');
 
 const data = {
-  labels: labels,
-  datasets: [
+labels: finalInfo.labels,
+datasets: [
     {
-      label: 'This month',
-      data: spents,
-      backgroundColor: 'rgb(234, 162, 26)',
-      borderColor: 'rgb(234, 162, 26)'
+    label: 'This month',
+    data: finalInfo.spents,
+    backgroundColor: 'rgb(234, 162, 26)',
+    borderColor: 'rgb(234, 162, 26)'
     }
-  ]
+]
 };
 
 const config = {
     type: 'bar',
     data: data,
     options: {
-      plugins: {
+    plugins: {
         title: {
-          display: true,
-          text: 'Spents'
+        display: true,
+        text: 'Spents'
         },
-      },
-      responsive: true,
-      interaction: {
+    },
+    responsive: true,
+    interaction: {
         intersect: false
-      }
     }
-  };
+    }
+};
 const myChart = new Chart(ctx, config);
+
+const updateChart = async () => {
+    try {
+        const info = await getInfoForChart();
+        const thisMonthSpents = countSpents(info);
+
+        setThisMonthSpents(thisMonthSpents);
+
+        const updatedInfo = chartInfoHandler(info);
+
+        myChart.data.labels = updatedInfo.labels;
+        myChart.data.datasets.forEach(dataset => {
+            dataset.data = updatedInfo.spents;
+        });
+        myChart.update(); 
+    } catch (err) {
+        console.error(err);
+    }
+  }
+
+document.addEventListener('record:create', async () => await updateChart());

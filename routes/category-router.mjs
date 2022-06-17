@@ -47,11 +47,11 @@ router
     //Delete Category
     .delete('/delete-category', async (req, res) => {
         try {
-            let defaultCategory = await Category.findOne({ name: "Other"});
+            // let defaultCategory = await Category.findOne({ name: "Other"});
             
-            !defaultCategory ?
-            defaultCategory = await Category.create({name: "Other", description: "Default category"}) :
-            defaultCategory;
+            // !defaultCategory ?
+            // defaultCategory = await Category.create({name: "Other", description: "Default category"}) :
+            // defaultCategory;
 
             const deleted = await Category.findOneAndRemove({ _id: req.body.id });
        
@@ -59,11 +59,11 @@ router
             return res.status(400).end();
             }
 
-            if (deleted.id === defaultCategory.id) {
-                defaultCategory = await Category.create({name: "Other", description: "Default category"});
-            }
+            // if (deleted.id === defaultCategory.id) {
+            //     defaultCategory = await Category.create({name: "Other", description: "Default category"});
+            // }
             
-            await Record.updateMany({category: deleted._id}, {$set: {category: defaultCategory._id}});
+            await Record.updateMany({category: deleted._id}, {$unset: {category: 1}});
             
             return res.status(200).json({id: deleted._id});
         } catch (err) {

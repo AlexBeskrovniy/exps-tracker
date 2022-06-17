@@ -38,5 +38,5 @@ mongoose
 	.catch(err => console.log(err));
 
 app.listen(process.env.PORT, () => {
-	console.log(`Server has started on the ${process.env.HOST}: ${process.env.PORT}`);
+	console.log(`Server has started on the Port: ${process.env.PORT}`);
 });

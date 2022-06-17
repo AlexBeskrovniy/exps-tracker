@@ -27,7 +27,8 @@ customElements.define('x-record-form', class extends HTMLElement {
         fetch('/get-categories')
             .then(res => res.json())
             .then(data => {
-                this.select.innerHTML = `${data.reduce((acc, cur) => {
+                this.select.innerHTML = `<option value="">No category</option>
+                    ${data.reduce((acc, cur) => {
                     return acc += `<option value="${cur._id}">${cur.name}</option>`
                 }, '')}`
             })
@@ -61,21 +62,31 @@ customElements.define('x-record-form', class extends HTMLElement {
         if (recordWrapper) {
             const card = document.createElement('x-record-card');
             card.setAttribute('id', data._id);
-            card.setAttribute('date', new Date(data.createdAt).toDateString()); 
-            card.setAttribute('category-id', data.category._id);
-            card.setAttribute('category', data.category.name);
+            card.setAttribute('date', new Date(data.createdAt).toDateString());
+            if (data.category) {
+                card.setAttribute('category-id', data.category._id);
+                card.setAttribute('category', data.category.name);
+            } else {
+                card.setAttribute('category-id', '');
+                card.setAttribute('category', 'No category');
+            }
             card.setAttribute('money', data.money);
             card.setAttribute('description', data.description);
             recordWrapper.prepend(card);
         }
         this.closeModal();
         getTotalSpentFromServer();
+        this.updateInfoChart();
     }
 
     onUpdate(data) {
         const card = document.querySelector(`[id="${data._id}"]`);
         card.querySelector('[data-record-date]').textContent = new Date(data.createdAt).toDateString();
-        card.querySelector('[data-record-category]').textContent = data.category.name;
+        if (data.category) {
+            card.querySelector('[data-record-category]').textContent = data.category.name;
+        } else {
+            card.querySelector('[data-record-category]').textContent = 'No category';
+        }
         card.querySelector('[data-record-money]').textContent = data.money;
         card.querySelector('[data-record-description]').textContent = data.description;
         this.closeModal();
@@ -84,16 +95,17 @@ customElements.define('x-record-form', class extends HTMLElement {
 
     deleteHandler(e) {
         e.preventDefault();
-
-        const props = { 
-            path: '/delete-record',
-            method: 'DELETE',
-            msg: 'Record has successfully deleted!',
-            form: this.form,
-            callback: this.onDelete.bind(this) 
-        };
-
-        formRequestHandler({ ...props });
+        if (confirm("This action will remove this record. Continue?")) {
+            const props = { 
+                path: '/delete-record',
+                method: 'DELETE',
+                msg: 'Record has successfully deleted!',
+                form: this.form,
+                callback: this.onDelete.bind(this) 
+            };
+    
+            formRequestHandler({ ...props });
+        }
     }
 
     onDelete(data) {
@@ -105,5 +117,9 @@ customElements.define('x-record-form', class extends HTMLElement {
     
     closeModal() {
         bootstrap.Modal.getOrCreateInstance(this.modal).hide();
+    }
+
+    updateInfoChart() {
+        document.dispatchEvent(new CustomEvent('record:create'));
     }
 });
